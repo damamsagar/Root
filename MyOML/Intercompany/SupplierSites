@@ -1,0 +1,26 @@
+SELECT
+    hcsua.primary_flag,
+    hcsua.site_use_code,
+    hcsua.site_use_id,
+    hcsua.cust_acct_site_id,
+    hca.cust_account_id,
+    hcsua.creation_date,
+    hcsua.last_update_date,
+    hcsua.status,
+    hcsua.location,
+    hcsua.start_date,
+    hcsua.end_date
+FROM
+    hz_cust_accounts hca,
+    hz_cust_acct_sites_all hcasa,
+    hz_cust_site_uses_all hcsua
+WHERE
+    hca.customer_type = 'I'
+    AND hca.cust_account_id = hcasa.cust_account_id
+    AND hcasa.cust_acct_site_id = hcsua.cust_acct_site_id
+    AND hcsua.site_use_code = 'BILL_TO'
+    AND (
+        hcsua.creation_date > TO_DATE(:P_START_DATE, 'MM-DD-YYYY HH24:MI:SS')
+        OR hcsua.last_update_date > TO_DATE(:P_START_DATE, 'MM-DD-YYYY HH24:MI:SS')
+    )
+;
