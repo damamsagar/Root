@@ -1,0 +1,526 @@
+import React, { useState } from 'react';
+import { Download, Upload, Plus, Trash2, Save, FileSpreadsheet } from 'lucide-react';
+import * as XLSX from 'xlsx';
+
+const ProjectEstimationTracker = () => {
+  const [projectInfo, setProjectInfo] = useState({
+    jiraId: 'JIRACEN-5565',
+    srNumber: 'SR3-41299221001',
+    estimationDate: '04-Sep-25',
+    approvedDate: '',
+    ticketOwner: 'Audrey',
+    functional: '',
+    oicResources: 'Rashmi',
+    csu: '24'
+  });
+
+  const [activities, setActivities] = useState([
+    { step: 1, detail: 'Backlog Grooming / Requirement Gathering', owner: 'ACS', activityCount: 1, estimatedTime: 1, actualTime: '', complexity: '', remarks: '' },
+    { step: 2, detail: 'Design Review Doc Preparation', owner: '', activityCount: 0, estimatedTime: 0, actualTime: '', complexity: '', remarks: '' },
+    { step: 3, detail: 'Design Review Session', owner: '', activityCount: 0, estimatedTime: 0, actualTime: '', complexity: '', remarks: '' },
+    { step: 4, detail: 'Design Signoff - (SCOPE FREEZE)', owner: '', activityCount: 0, estimatedTime: 0, actualTime: '', complexity: '', remarks: '' },
+    { step: 5, detail: 'QA Session (Test Scenarios Discussion)', owner: '', activityCount: 0, estimatedTime: 0, actualTime: '', complexity: '', remarks: '' },
+    { step: 6, detail: 'Agreed Test Case Summary preparation', owner: '', activityCount: 0, estimatedTime: 0, actualTime: '', complexity: '', remarks: '' },
+    { step: 7, detail: 'Test Summary Freeze', owner: '', activityCount: 0, estimatedTime: 0, actualTime: '', complexity: '', remarks: '' },
+    { step: 8, detail: 'Agreed Env for DEV work', owner: 'DEV-OIC', activityCount: '', estimatedTime: '', actualTime: '', complexity: '', remarks: '' },
+    { step: 9, detail: 'Actual Development', owner: '', activityCount: 15, estimatedTime: 6, actualTime: '', complexity: 'COMPLEX', remarks: '' },
+    { step: 10, detail: 'Test Scenario Execution - Developers Unit Testing', owner: '', activityCount: 1, estimatedTime: 10, actualTime: '', complexity: 'COMPLEX', remarks: 'Recording Based' },
+    { step: 11, detail: 'Test Scenario Execution - Functional', owner: '', activityCount: 0, estimatedTime: 0, actualTime: '', complexity: '', remarks: '' },
+    { step: 12, detail: 'Internal Peer Review', owner: '', activityCount: 0, estimatedTime: 0, actualTime: '', complexity: '', remarks: '' },
+    { step: 13, detail: 'OML Peer Review Call', owner: '', activityCount: 1, estimatedTime: 1, actualTime: '', complexity: '', remarks: 'OML owns UAT' },
+    { step: 14, detail: 'Peer Review - (document changes)', owner: '', activityCount: 0, estimatedTime: 0, actualTime: '', complexity: '', remarks: '' },
+    { step: 15, detail: 'Peer Review - Implementations and testing changes', owner: '', activityCount: 0, estimatedTime: 0, actualTime: '', complexity: '', remarks: '' },
+    { step: 16, detail: 'Testing - Functional (Business/OML IT)', owner: 'OML', activityCount: 0, estimatedTime: 0, actualTime: '', complexity: '', remarks: '' },
+    { step: 17, detail: 'Code Migration Doc, Change Template, TDD, etc', owner: 'ACS (OIC)', activityCount: 1, estimatedTime: 1, actualTime: '', complexity: 'Simple', remarks: 'Code Deployment Doc' },
+    { step: 18, detail: 'Code Movement to Test', owner: 'ACS (OIC)', activityCount: 1, estimatedTime: 1, actualTime: '', complexity: '', remarks: '' },
+    { step: 19, detail: 'Change Request to PROD', owner: 'ACS (OIC)', activityCount: 0, estimatedTime: 0, actualTime: '', complexity: 'Simple', remarks: '' },
+    { step: 20, detail: 'Post Production', owner: '', activityCount: 1, estimatedTime: 1, actualTime: '', complexity: '', remarks: '' }
+  ]);
+
+  const [saveMessage, setSaveMessage] = useState('');
+  const [masterFileName, setMasterFileName] = useState('Project_Estimation_Master.xlsx');
+
+  const updateProjectInfo = (field, value) => {
+    setProjectInfo(prev => ({ ...prev, [field]: value }));
+  };
+
+  const updateActivity = (index, field, value) => {
+    const newActivities = [...activities];
+    newActivities[index][field] = value;
+    setActivities(newActivities);
+  };
+
+  const addActivity = () => {
+    const newStep = activities.length + 1;
+    setActivities([...activities, {
+      step: newStep,
+      detail: '',
+      owner: '',
+      activityCount: 0,
+      estimatedTime: 0,
+      actualTime: '',
+      complexity: '',
+      remarks: ''
+    }]);
+  };
+
+  const deleteActivity = (index) => {
+    const newActivities = activities.filter((_, i) => i !== index);
+    newActivities.forEach((activity, i) => {
+      activity.step = i + 1;
+    });
+    setActivities(newActivities);
+  };
+
+  const saveToMasterExcel = (e) => {
+    const file = e.target.files[0];
+    
+    if (!file) {
+      // If no file selected, create new master file
+      createNewMasterFile();
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const data = new Uint8Array(event.target.result);
+        const workbook = XLSX.read(data, { type: 'array' });
+        
+        // Add current data as a new sheet
+        addSheetToWorkbook(workbook);
+        
+        // Save the updated workbook
+        XLSX.writeFile(workbook, masterFileName);
+        
+        setSaveMessage(`✓ Data appended to ${masterFileName} successfully!`);
+        setTimeout(() => setSaveMessage(''), 3000);
+        
+        // Reset file input
+        e.target.value = '';
+      } catch (error) {
+        setSaveMessage('✗ Error updating master file. Creating new file instead.');
+        createNewMasterFile();
+        setTimeout(() => setSaveMessage(''), 3000);
+      }
+    };
+    reader.readAsArrayBuffer(file);
+  };
+
+  const createNewMasterFile = () => {
+    const wb = XLSX.utils.book_new();
+    addSheetToWorkbook(wb);
+    XLSX.writeFile(wb, masterFileName);
+    
+    setSaveMessage(`✓ New master file created: ${masterFileName}`);
+    setTimeout(() => setSaveMessage(''), 3000);
+  };
+
+  const addSheetToWorkbook = (workbook) => {
+    // Create sheet name with JIRA ID and timestamp
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
+    const sheetName = `${projectInfo.jiraId}_${timestamp}`.substring(0, 31); // Excel limit
+
+    // Project Info
+    const projectData = [
+      ['Project Estimation Tracker'],
+      ['Last Updated: ' + new Date().toLocaleString()],
+      [],
+      ['JIRA ID', projectInfo.jiraId],
+      ['SR Number', projectInfo.srNumber],
+      ['Estimation Date', projectInfo.estimationDate],
+      ['Approved Date', projectInfo.approvedDate],
+      ['Ticket Owner', projectInfo.ticketOwner],
+      ['Functional', projectInfo.functional],
+      ['OIC Resources', projectInfo.oicResources],
+      ['CSU', projectInfo.csu],
+      []
+    ];
+
+    // Activities
+    const activitiesData = [
+      ['Step', 'Detail', 'Owner', 'Activity Count', 'Estimated Time (hrs)', 'Actual Time (hrs)', 'Complexity', 'Remarks']
+    ];
+
+    activities.forEach(activity => {
+      activitiesData.push([
+        activity.step,
+        activity.detail,
+        activity.owner,
+        activity.activityCount,
+        activity.estimatedTime,
+        activity.actualTime,
+        activity.complexity,
+        activity.remarks
+      ]);
+    });
+
+    const totalEstimated = activities.reduce((sum, a) => sum + (Number(a.estimatedTime) || 0), 0);
+    const totalActual = activities.reduce((sum, a) => sum + (Number(a.actualTime) || 0), 0);
+    
+    activitiesData.push([]);
+    activitiesData.push(['', '', '', 'TOTAL', totalEstimated, totalActual, '', '']);
+
+    const allData = [...projectData, ...activitiesData];
+    const ws = XLSX.utils.aoa_to_sheet(allData);
+    
+    ws['!cols'] = [
+      { wch: 8 },
+      { wch: 50 },
+      { wch: 15 },
+      { wch: 15 },
+      { wch: 20 },
+      { wch: 18 },
+      { wch: 12 },
+      { wch: 40 }
+    ];
+
+    XLSX.utils.book_append_sheet(workbook, ws, sheetName);
+  };
+
+  const loadFromSheet = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const data = new Uint8Array(event.target.result);
+        const workbook = XLSX.read(data, { type: 'array' });
+        
+        // Get the last sheet (most recent)
+        const lastSheetName = workbook.SheetNames[workbook.SheetNames.length - 1];
+        const worksheet = workbook.Sheets[lastSheetName];
+        const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+        // Find the row where project info starts (look for "JIRA ID")
+        let projectInfoStartRow = 0;
+        for (let i = 0; i < jsonData.length; i++) {
+          if (jsonData[i][0] === 'JIRA ID') {
+            projectInfoStartRow = i;
+            break;
+          }
+        }
+
+        // Extract project info
+        const newProjectInfo = {
+          jiraId: jsonData[projectInfoStartRow]?.[1] || '',
+          srNumber: jsonData[projectInfoStartRow + 1]?.[1] || '',
+          estimationDate: jsonData[projectInfoStartRow + 2]?.[1] || '',
+          approvedDate: jsonData[projectInfoStartRow + 3]?.[1] || '',
+          ticketOwner: jsonData[projectInfoStartRow + 4]?.[1] || '',
+          functional: jsonData[projectInfoStartRow + 5]?.[1] || '',
+          oicResources: jsonData[projectInfoStartRow + 6]?.[1] || '',
+          csu: jsonData[projectInfoStartRow + 7]?.[1] || ''
+        };
+        setProjectInfo(newProjectInfo);
+
+        // Find activities header row
+        let activitiesHeaderRow = 0;
+        for (let i = projectInfoStartRow; i < jsonData.length; i++) {
+          if (jsonData[i][0] === 'Step') {
+            activitiesHeaderRow = i;
+            break;
+          }
+        }
+
+        // Extract activities
+        const newActivities = [];
+        for (let i = activitiesHeaderRow + 1; i < jsonData.length; i++) {
+          const row = jsonData[i];
+          if (!row || row.length === 0 || row[0] === '' || row[3] === 'TOTAL') break;
+          
+          newActivities.push({
+            step: row[0] || newActivities.length + 1,
+            detail: row[1] || '',
+            owner: row[2] || '',
+            activityCount: row[3] || 0,
+            estimatedTime: row[4] || 0,
+            actualTime: row[5] || '',
+            complexity: row[6] || '',
+            remarks: row[7] || ''
+          });
+        }
+        
+        if (newActivities.length > 0) {
+          setActivities(newActivities);
+        }
+
+        setSaveMessage(`✓ Data loaded from sheet: ${lastSheetName}`);
+        setTimeout(() => setSaveMessage(''), 3000);
+        
+        e.target.value = '';
+      } catch (error) {
+        setSaveMessage('✗ Error loading Excel file. Please check the format.');
+        setTimeout(() => setSaveMessage(''), 3000);
+      }
+    };
+    reader.readAsArrayBuffer(file);
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
+      <div className="max-w-7xl mx-auto">
+        <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="text-3xl font-bold text-gray-800">Project Estimation Tracker</h1>
+            <div className="flex gap-3">
+              <label className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors cursor-pointer">
+                <Upload size={20} />
+                Load Latest Data
+                <input
+                  type="file"
+                  accept=".xlsx,.xls"
+                  onChange={loadFromSheet}
+                  className="hidden"
+                />
+              </label>
+              <label className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors cursor-pointer">
+                <Save size={20} />
+                Append to Master
+                <input
+                  type="file"
+                  accept=".xlsx,.xls"
+                  onChange={saveToMasterExcel}
+                  className="hidden"
+                />
+              </label>
+              <button
+                onClick={createNewMasterFile}
+                className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors"
+              >
+                <FileSpreadsheet size={20} />
+                New Master File
+              </button>
+            </div>
+          </div>
+
+          {saveMessage && (
+            <div className={`mb-4 p-3 rounded-lg ${saveMessage.includes('✓') ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+              {saveMessage}
+            </div>
+          )}
+
+          <div className="mb-6 p-4 bg-gradient-to-r from-yellow-50 to-orange-50 border-l-4 border-yellow-500 rounded-lg">
+            <h3 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+              <FileSpreadsheet size={20} />
+              Master File: {masterFileName}
+            </h3>
+            <input
+              type="text"
+              value={masterFileName}
+              onChange={(e) => setMasterFileName(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+              placeholder="Enter master file name"
+            />
+          </div>
+
+          {/* Project Information */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">JIRA ID</label>
+              <input
+                type="text"
+                value={projectInfo.jiraId}
+                onChange={(e) => updateProjectInfo('jiraId', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">SR Number</label>
+              <input
+                type="text"
+                value={projectInfo.srNumber}
+                onChange={(e) => updateProjectInfo('srNumber', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Estimation Date</label>
+              <input
+                type="text"
+                value={projectInfo.estimationDate}
+                onChange={(e) => updateProjectInfo('estimationDate', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Approved Date</label>
+              <input
+                type="text"
+                value={projectInfo.approvedDate}
+                onChange={(e) => updateProjectInfo('approvedDate', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Ticket Owner</label>
+              <input
+                type="text"
+                value={projectInfo.ticketOwner}
+                onChange={(e) => updateProjectInfo('ticketOwner', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Functional</label>
+              <input
+                type="text"
+                value={projectInfo.functional}
+                onChange={(e) => updateProjectInfo('functional', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">OIC Resources</label>
+              <input
+                type="text"
+                value={projectInfo.oicResources}
+                onChange={(e) => updateProjectInfo('oicResources', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">CSU</label>
+              <input
+                type="text"
+                value={projectInfo.csu}
+                onChange={(e) => updateProjectInfo('csu', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+          </div>
+
+          {/* Activities Table */}
+          <div className="overflow-x-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold text-gray-800">Activities</h2>
+              <button
+                onClick={addActivity}
+                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
+              >
+                <Plus size={18} />
+                Add Activity
+              </button>
+            </div>
+            
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="bg-gray-100">
+                  <th className="border border-gray-300 px-3 py-2 text-left text-sm font-semibold">Step</th>
+                  <th className="border border-gray-300 px-3 py-2 text-left text-sm font-semibold">Detail</th>
+                  <th className="border border-gray-300 px-3 py-2 text-left text-sm font-semibold">Owner</th>
+                  <th className="border border-gray-300 px-3 py-2 text-left text-sm font-semibold">Count</th>
+                  <th className="border border-gray-300 px-3 py-2 text-left text-sm font-semibold">Est. Hrs</th>
+                  <th className="border border-gray-300 px-3 py-2 text-left text-sm font-semibold">Act. Hrs</th>
+                  <th className="border border-gray-300 px-3 py-2 text-left text-sm font-semibold">Complexity</th>
+                  <th className="border border-gray-300 px-3 py-2 text-left text-sm font-semibold">Remarks</th>
+                  <th className="border border-gray-300 px-3 py-2 text-center text-sm font-semibold">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {activities.map((activity, index) => (
+                  <tr key={index} className="hover:bg-gray-50">
+                    <td className="border border-gray-300 px-3 py-2 text-sm">{activity.step}</td>
+                    <td className="border border-gray-300 px-3 py-2">
+                      <input
+                        type="text"
+                        value={activity.detail}
+                        onChange={(e) => updateActivity(index, 'detail', e.target.value)}
+                        className="w-full px-2 py-1 text-sm border-0 focus:ring-2 focus:ring-blue-500 rounded"
+                      />
+                    </td>
+                    <td className="border border-gray-300 px-3 py-2">
+                      <input
+                        type="text"
+                        value={activity.owner}
+                        onChange={(e) => updateActivity(index, 'owner', e.target.value)}
+                        className="w-full px-2 py-1 text-sm border-0 focus:ring-2 focus:ring-blue-500 rounded"
+                      />
+                    </td>
+                    <td className="border border-gray-300 px-3 py-2">
+                      <input
+                        type="number"
+                        value={activity.activityCount}
+                        onChange={(e) => updateActivity(index, 'activityCount', e.target.value)}
+                        className="w-full px-2 py-1 text-sm border-0 focus:ring-2 focus:ring-blue-500 rounded"
+                      />
+                    </td>
+                    <td className="border border-gray-300 px-3 py-2">
+                      <input
+                        type="number"
+                        value={activity.estimatedTime}
+                        onChange={(e) => updateActivity(index, 'estimatedTime', e.target.value)}
+                        className="w-full px-2 py-1 text-sm border-0 focus:ring-2 focus:ring-blue-500 rounded"
+                      />
+                    </td>
+                    <td className="border border-gray-300 px-3 py-2">
+                      <input
+                        type="number"
+                        value={activity.actualTime}
+                        onChange={(e) => updateActivity(index, 'actualTime', e.target.value)}
+                        className="w-full px-2 py-1 text-sm border-0 focus:ring-2 focus:ring-blue-500 rounded"
+                      />
+                    </td>
+                    <td className="border border-gray-300 px-3 py-2">
+                      <input
+                        type="text"
+                        value={activity.complexity}
+                        onChange={(e) => updateActivity(index, 'complexity', e.target.value)}
+                        className="w-full px-2 py-1 text-sm border-0 focus:ring-2 focus:ring-blue-500 rounded"
+                      />
+                    </td>
+                    <td className="border border-gray-300 px-3 py-2">
+                      <input
+                        type="text"
+                        value={activity.remarks}
+                        onChange={(e) => updateActivity(index, 'remarks', e.target.value)}
+                        className="w-full px-2 py-1 text-sm border-0 focus:ring-2 focus:ring-blue-500 rounded"
+                      />
+                    </td>
+                    <td className="border border-gray-300 px-3 py-2 text-center">
+                      <button
+                        onClick={() => deleteActivity(index)}
+                        className="text-red-600 hover:text-red-800 transition-colors"
+                      >
+                        <Trash2 size={18} />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+              <tfoot>
+                <tr className="bg-blue-50 font-semibold">
+                  <td colSpan="4" className="border border-gray-300 px-3 py-2 text-right">TOTAL:</td>
+                  <td className="border border-gray-300 px-3 py-2 text-sm">
+                    {activities.reduce((sum, a) => sum + (Number(a.estimatedTime) || 0), 0)} hrs
+                  </td>
+                  <td className="border border-gray-300 px-3 py-2 text-sm">
+                    {activities.reduce((sum, a) => sum + (Number(a.actualTime) || 0), 0)} hrs
+                  </td>
+                  <td colSpan="3" className="border border-gray-300"></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+
+          <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+            <h3 className="font-semibold text-gray-800 mb-2">📝 Workflow:</h3>
+            <ol className="text-sm text-gray-700 space-y-2 list-decimal list-inside">
+              <li><strong>First Time:</strong> Click "New Master File" to create your master Excel file</li>
+              <li><strong>Add/Edit Data:</strong> Make changes to project info and activities in the interface</li>
+              <li><strong>Append to Master:</strong> Click "Append to Master" and select your master file - your current data will be added as a new sheet with timestamp</li>
+              <li><strong>Keep Working:</strong> Each time you make changes, click "Append to Master" again - all versions are saved in the same Excel file</li>
+              <li><strong>Load Latest:</strong> Click "Load Latest Data" and select your master file to retrieve the most recent data</li>
+            </ol>
+            <div className="mt-3 p-3 bg-white rounded border border-blue-200">
+              <p className="text-sm text-gray-600">💡 <strong>Tip:</strong> Each save creates a new sheet named with JIRA ID + timestamp, so you have a complete history of all changes in one file!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProjectEstimationTracker;

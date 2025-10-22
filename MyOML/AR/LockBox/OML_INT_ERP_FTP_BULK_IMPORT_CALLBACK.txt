@@ -1,0 +1,136 @@
+OML_INT_ERP_FTP_BULK_IMPORT_CALLBACK
+
+1) Oracle ERP Cloud Adapter:CallBackFromFusionCloud
+	Purpose: Receive Callback message upon completion of FBDI Bulk import job submittede via another integration
+	Operation: Onjob completion
+	Request Object: onJobCompletionRequest
+	Download Option: Always
+2) Initialize Variables
+	integrationName = lookupValue('LOOKUP_ERP_BULK_LOADER_DETAILS', 'CALLBACK_FILE_NAME', substring-before(documentName, '_'), 'INTEGRATION_NAME', 'ERP Callback')
+	logFileName = concat(substring-before(/nssrcmpr:onJobCompletion/nssrcdfl:onJobCompletionRequest/nssrcdfl:jobs[1]/nssrcdfl:documentName,'.zip'),'_',/nssrcmpr:onJobCompletion/nssrcdfl:onJobCompletionRequest/nssrcdfl:documentId,'_log','.zip')
+	notificationEmailID = dvm:lookupValue('LOOKUP_NOTIFICATION_DETAILS','IntegrationName',$integrationName,'ToAddress','NA')
+	logFilePath = lookupValue('LOOKUP_ERP_BULK_LOADER_DETAILS', 'INTEGRATION_NAME', integrationName, 'LOG_FILE_PATH', 'NA')
+	UCMFileName = ''
+3) Switch 
+		3.1) Route 1
+		contains(/nsmpr5:onJobCompletion/nsmpr3:onJobCompletionRequest/nsmpr3:jobs[1]/nsmpr3:documentName, 'NedBank') = 'true'
+			3.1.1) Intialize Variables
+					integrationName = dvm:lookupValue('LOOKUP_ERP_BULK_LOADER_DETAILS','CALLBACK_FILE_NAME','NedBank','INTEGRATION_NAME','NA')
+					logFileName = concat(/nsmpr5:onJobCompletion/nsmpr3:onJobCompletionRequest/nsmpr3:jobs/nsmpr3:requestId,'.log')
+					notificationEmailID = dvm:lookupValue('LOOKUP_NOTIFICATION_DETAILS','IntegrationName',$integrationName,'ToAddress','no-reply@oracle.com')
+					LogFilePath = dvm:lookupValue('LOOKUP_ERP_BULK_LOADER_DETAILS','INTEGRATION_NAME',$integrationName,'LOG_FILE_PATH','NA')
+					UCMFileName = ''
+		3.2) Route 2 contains(/nsmpr5:onJobCompletion/nsmpr3:onJobCompletionRequest/nsmpr3:jobs[1]/nsmpr3:documentName, 'STDBANK') = 'true'
+			3.2.2) Assign Varibales
+					integrationName = dvm:lookupValue('LOOKUP_ERP_BULK_LOADER_DETAILS','CALLBACK_FILE_NAME',substring-before(/nsmpr5:onJobCompletion/nsmpr3:onJobCompletionRequest/nsmpr3:jobs/nsmpr3:documentName,'.'),'INTEGRATION_NAME','ERP Callback')
+4)  Assign Variables
+		TableContent = ''
+5) For each record(for each jobset)  /nssrcmpr:onJobCompletion/nsmpr3:onJobCompletionRequest/nsmpr3:jobs
+		5.1) Assign Variables	
+				tableContent = concat($tableContent,'<br><span>',$forEachJob/nssrcmpr:jobs/nssrcmpr:jobName,'Job Details:- </span><table><tr><td><b>JobName</b></td><td>',$forEachJob/nssrcmpr:jobs/nssrcmpr:jobName,'</td></tr>
+				<tr><td><b>JobPath</b></td><td>',$forEachJob/nssrcmpr:jobs/nssrcmpr:jobPath,'</td></tr>
+				<tr><td><b>RequestId</b></td><td>',$forEachJob/nssrcmpr:jobs/nssrcmpr:requestId,'</td></tr>
+		5.2) For Each Child Record $forEachJob/nssrcmpr:jobs/nssrcmpr:child
+			5.2.1) Assign Variables
+						tableContent = concat($tableContent,'<br><span>',$eachChildRecord/nssrcmpr:child/nssrcmpr:jobName,'Job Details:- </span><table><tr><td><b>JobName</b></td><td>',$eachChildRecord/nssrcmpr:child/nssrcmpr:jobName,'</td></tr>
+						<tr><td><b>JobPath</b></td><td>',$eachChildRecord/nssrcmpr:child/nssrcmpr:jobPath,'</td></tr>
+6) Switch Connection
+	6.1) Route 1 /nsmpr5:onJobCompletion/nsmpr3:onJobCompletionRequest/nsmpr3:jobs/nsmpr3:jobName = 'Load Interface File for Import' and contains(/nsmpr5:onJobCompletion/nsmpr3:onJobCompletionRequest/nsmpr3:jobs[1]/nsmpr3:documentName, 'NedBank') = 'true'
+		6.1.1) Assign Variables - Assign logfilename
+				logFileName = concat(/nsmpr5:onJobCompletion/nsmpr3:onJobCompletionRequest/nsmpr3:jobs[1]/nsmpr3:requestId,'.zip')
+		6.1.2) Invoke ERP_CLOUD_ADAPtor
+					Invoke ERP Download ESS job Execution Details
+					opertion: query , create, update or delete information
+					Selected Service: DownloadESSJobExecutionDetails
+					BusinessObect: ErpIntegrationService
+						Mapping Details 
+							RequestId from Step 1
+		6.1.3) Wrtie Stage file action
+				Write File
+					File Name = $Invoke_ERP_DownloadESSJobExecutionDetails/nsmpr4:downloadESSJobExecutionDetailsResponse/nsmpr4:result[1]/nsmpr0:FileName
+					output directory = '/stage/ess/download/'
+						Mapping Details 
+							Content file recevied from step step 6.1.2
+		6.1.4) Stage file Action
+				Stage Unzip ESS Download (unzip the file received from step 6.1.3
+					file Reference : $Invoke_Stage_Write_ESSDownload/nsmpr13:WriteResponse/nsmpr6:WriteResponse/nsmpr5:ICSFile/nsmpr5:FileReference
+					Directory to unzip = $Invoke_Stage_Write_ESSDownload/nsmpr13:WriteResponse/nsmpr6:WriteResponse/nsmpr5:ICSFile/nsmpr5:Properties/nsmpr5:directory
+  <tr><td><b>RequestId</b></td><td>',$eachChildRecord/nssrcmpr:child/nssrcmpr:requestId,'</td></tr>
+  <tr><td><b>Status</b></td><td>',$eachChildRecord/nssrcmpr:child/nssrcmpr:status,'</td></tr></table>')
+				
+  <tr><td><b>Status</b></td><td>',$forEachJob/nssrcmpr:jobs/nssrcmpr:status,'</td></tr></table>')
+		6.1.5) for Each unzip file  from step 6.1.4
+				$Invoke_Stage_Unzip_ESSDownload/nsmpr8:UnzipResponse/nsmpr1:ListFilesResponse/nsmpr1:FileList/nsmpr5:ICSFile
+				6.1.5.1) Assign Variables 
+						UnzipFileName = fn:upper-case($CurrentUnzipFile/nsmpr5:ICSFile/nsmpr5:Properties/nsmpr5:filename)
+				6.1.5.2) Switch Connection
+						Route 1 contains($UnzipFileName, '.TXT') = 'true'
+							6.1.5.2.1) Assign Variables 
+										UCMFileName = $CurrentUnzipFile/nsmpr5:ICSFile/nsmpr5:Properties/nsmpr5:filename
+		6.1.6) Switch Connection 
+				6.1.6.1) Route 1 /nsmpr21:onJobCompletion/nsmpr3:onJobCompletionRequest/nsmpr3:summaryStatus = 'SUCCEEDED'
+						6.1.6.1.1) Switch Connection 
+									lookupValue('LOOKUP_NOTIFICATION_DETAILS', 'IntegrationName', name, 'SuccessNotificationStatus', 'Y') = 'Y'
+										Send Success notification email 
+				6.1.6.1.2) Invoke SFTP Connection for success log file 
+						Operation:write File
+						output directory : testoutput directory
+						File name Pattern: TestFileName.txt
+				6.1.6.1.3) Switch Connection
+							contains(documentName, lookupValue('LOOKUP_MISC_DETAILS', 'KEY', 'OML_INT_CM_LOCKBOX_INTERFACE_NEDBANK_FILE_NAME', 'VALUE', '')) =  'true'
+							Invoke OIC LockBoxInterface
+							Integration Name: OML_INT_CM_LOCKBO_INTERF
+							operation:Process
+							Mapping Details 
+								ParentInterfaceName : Integration Name from this integration from Integration Metadata tab. 
+								ParentInterfaceInstanceId: Instance ID from the runtime details
+								IncomingFileName: Document Name from Step 1
+								ERPProcessId: Process ID from step 1
+		6.1.6.2) Otherwise
+				6.1.6.2.1) Invoke SOAP Connection - Invoke BIP Report to get PDF Error Reprot 
+							Service: ExternalReportWSSService
+							Operation: RunReport
+							Mapping Details
+								Report path: /Custom/Integration/Old Mutual - INT - Cash Management Error PDF Report.xdo
+								parameter Name : p_request_id and value is request id from step 1
+				6.1.6.2.2) Stage file action -- Invoke stage file write PDF error report
+							file name :'BankStatementImportErrorReport.pdf'
+							output directory : '/oml/stage/write/cmerrorreport/'
+							Mapping details : content file receivevd from the step 6.1.6.2.1
+				6.1.6.2.3) Switch : dvm:lookupValue('LOOKUP_NOTIFICATION_DETAILS', 'IntegrationName', 				$self/ics:metadata/ics:integration/ics:name, 'ErrorNotificationStatus', 'Y') = 'Y'
+							Send error email notification along with attachment
+				6.1.6.2.4) Invoke FTP connection  - Write Error Log for CM 
+							output directory : TestOutputDirectory
+							File Name Pattern: TestFileName.txt
+							Mapping Details 
+								FileName : concat ($UCMFileName, ".", /nssrcmpr:onJobCompletion/ns31:onJobCompletionRequest/ns30:ICSFile/ns30:Properties/ns30:filename )
+								Directory : dvm:lookupValue ("LOOKUP_ERP_BULK_LOADER_DETAILS", "INTEGRATION_NAME", $integrationName, "LOG_FILE_PATH_ERROR", "NA" )
+								File Reference: /nssrcmpr:onJobCompletion/ns31:onJobCompletionRequest/ns30:ICSFile/ns30:FileReference
+	6.2) Otherwise
+			6.2.1) Switch Connection 
+					6.2.1.1) Route 1 /nsmpr5:onJobCompletion/nsmpr3:onJobCompletionRequest/nsmpr3:summaryStatus = 'SUCCEEDED'
+								Switch Connection 
+									dvm:lookupValue('LOOKUP_NOTIFICATION_DETAILS', 'IntegrationName', $self/ics:metadata/ics:integration/ics:name, 'SuccessNotificationStatus', 'Y') = 'Y'
+										Send FBDI Success notification Email 
+					6.2.1.2) Invoke FTP Connection - WriteSuccessLog
+								Output Directory : TestOutputDirectory
+								FileName: TestFileName.txt
+								Mapping Details 
+										File Name : $logFileName File Name from step 2
+										Directory : dvm:lookupValue ("LOOKUP_ERP_BULK_LOADER_DETAILS", "INTEGRATION_NAME", $integrationName, "LOG_FILE_PATH", "NA" ) -- integration name from step 2
+										file r3eference : /nssrcmpr:onJobCompletion/ns25:onJobCompletionRequest/ns24:ICSFile/ns24:FileReference (from step 1)
+				6.2.2) Other wise
+						Switch Connection  - dvm:lookupValue('LOOKUP_NOTIFICATION_DETAILS', 'IntegrationName', $self/ics:metadata/ics:integration/ics:name, 'ErrorNotificationStatus', 'Y') = 'Y'
+							Send FDBI Error Notification
+						
+						Invoke FTP Connection - WriteErrorLog
+								Output Directory : TestOutputDirectory
+								FileName: TestFileName.txt
+								Mapping Details 
+										File Name : $logFileName File Name from step 2
+										Directory : dvm:lookupValue ("LOOKUP_ERP_BULK_LOADER_DETAILS", "INTEGRATION_NAME", $integrationName, "LOG_FILE_PATH_ERROR", "NA" ) -- integration name from step 2
+										file r3eference : /nssrcmpr:onJobCompletion/ns25:onJobCompletionRequest/ns24:ICSFile/ns24:FileReference (from step 1)
+						
+								
+							
+								

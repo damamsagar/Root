@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Estimation Tracker</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: #333;
+            margin: 0;
+        }
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .btn-load {
+            background: #3b82f6;
+            color: white;
+        }
+        .btn-save {
+            background: #10b981;
+            color: white;
+        }
+        .btn-new {
+            background: #8b5cf6;
+            color: white;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .file-config {
+            background: #fef3c7;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #f59e0b;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #555;
+            font-size: 14px;
+        }
+        input[type="text"], input[type="number"], input[type="file"] {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background: #f3f4f6;
+            font-weight: 600;
+            color: #333;
+        }
+        tbody tr:hover {
+            background: #f9fafb;
+        }
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            display: none;
+        }
+        .toast.success {
+            background: #10b981;
+            color: white;
+        }
+        .toast.error {
+            background: #ef4444;
+            color: white;
+        }
+        .toast.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        .btn-add {
+            background: #3b82f6;
+            color: white;
+            padding: 8px 16px;
+            margin-bottom: 10px;
+        }
+        .btn-delete {
+            background: #ef4444;
+            color: white;
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+        tfoot {
+            background: #dbeafe;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="toast" class="toast"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>📊 Project Estimation Tracker</h1>
+            <div class="buttons">
+                <button class="btn-load" onclick="loadFromDB()">📥 Load from DB</button>
+                <button class="btn-save" onclick="saveToDB()">💾 Save to DB</button>
+                <button class="btn-new" onclick="createNewDB()">📄 New DB File</button>
+            </div>
+        </div>
+
+        <div class="file-config">
+            <h3 style="margin-top:0;">📁 Database Configuration</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div class="form-group">
+                    <label>Database File Name</label>
+                    <input type="text" id="dbFileName" value="Project_Estimation_Database.xlsx">
+                </div>
+                <div class="form-group">
+                    <label>Select Database File</label>
+                    <input type="file" id="dbFileInput" accept=".xlsx,.xls">
+                </div>
+            </div>
+            <p style="margin-bottom:0; margin-top:10px; font-size:13px; color:#666;">
+                💡 All entries saved in "MasterTable" sheet. Each field = separate column.
+            </p>
+        </div>
+
+        <h2>Project Information</h2>
+        <div class="form-grid">
+            <div class="form-group">
+                <label>JIRA ID</label>
+                <input type="text" id="jiraId" value="JIRACEN-5565">
+            </div>
+            <div class="form-group">
+                <label>SR Number</label>
+                <input type="text" id="srNumber" value="SR3-41299221001">
+            </div>
+            <div class="form-group">
+                <label>Estimation Date</label>
+                <input type="text" id="estimationDate" value="04-Sep-25">
+            </div>
+            <div class="form-group">
+                <label>Approved Date</label>
+                <input type="text" id="approvedDate" value="">
+            </div>
+            <div class="form-group">
+                <label>Ticket Owner</label>
+                <input type="text" id="ticketOwner" value="Audrey">
+            </div>
+            <div class="form-group">
+                <label>Functional</label>
+                <input type="text" id="functional" value="">
+            </div>
+            <div class="form-group">
+                <label>OIC Resources</label>
+                <input type="text" id="oicResources" value="Rashmi">
+            </div>
+            <div class="form-group">
+                <label>CSU</label>
+                <input type="text" id="csu" value="24">
+            </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>Activities</h2>
+            <button class="btn-add" onclick="addActivity()">➕ Add Activity</button>
+        </div>
+
+        <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Step</th>
+                        <th>Detail</th>
+                        <th>Owner</th>
+                        <th>Count</th>
+                        <th>Est. Hrs</th>
+                        <th>Act. Hrs</th>
+                        <th>Complexity</th>
+                        <th>Remarks</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="activitiesBody">
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" style="text-align: right;">TOTAL:</td>
+                        <td id="totalEstimated">0 hrs</td>
+                        <td id="totalActual">0 hrs</td>
+                        <td colspan="3"></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let activities = [
+            { step: 1, detail: 'Backlog Grooming / Requirement Gathering', owner: 'ACS', activityCount: 1, estimatedTime: 1, actualTime: '', complexity: '', remarks: '' },
+            { step: 2, detail: 'Design Review Doc Preparation', owner: '', activityCount: 0, estimatedTime: 0, actualTime: '', complexity: '', remarks: '' },
+            { step: 3, detail: 'Design Review Session', owner: '', activityCount: 0, estimatedTime: 0, actualTime: '', complexity: '', remarks: '' },
+            { step: 4, detail: 'Design Signoff - (SCOPE FREEZE)', owner: '', activityCount: 0, estimatedTime: 0, actualTime: '', complexity: '', remarks: '' },
+            { step: 5, detail: 'QA Session (Test Scenarios Discussion)', owner: '', activityCount: 0, estimatedTime: 0, actualTime: '', complexity: '', remarks: '' },
+            { step: 6, detail: 'Agreed Test Case Summary preparation', owner: '', activityCount: 0, estimatedTime: 0, actualTime: '', complexity: '', remarks: '' },
+            { step: 7, detail: 'Test Summary Freeze', owner: '', activityCount: 0, estimatedTime: 0, actualTime: '', complexity: '', remarks: '' },
+            { step: 8, detail: 'Agreed Env for DEV work', owner: 'DEV-OIC', activityCount: '', estimatedTime: '', actualTime: '', complexity: '', remarks: '' },
+            { step: 9, detail: 'Actual Development', owner: '', activityCount: 15, estimatedTime: 6, actualTime: '', complexity: 'COMPLEX', remarks: '' },
+            { step: 10, detail: 'Test Scenario Execution - Developers Unit Testing', owner: '', activityCount: 1, estimatedTime: 10, actualTime: '', complexity: 'COMPLEX', remarks: 'Recording Based' },
+            { step: 11, detail: 'Test Scenario Execution - Functional', owner: '', activityCount: 0, estimatedTime: 0, actualTime: '', complexity: '', remarks: '' },
+            { step: 12, detail: 'Internal Peer Review', owner: '', activityCount: 0, estimatedTime: 0, actualTime: '', complexity: '', remarks: '' },
+            { step: 13, detail: 'OML Peer Review Call', owner: '', activityCount: 1, estimatedTime: 1, actualTime: '', complexity: '', remarks: 'OML owns UAT' },
+            { step: 14, detail: 'Peer Review - (document changes)', owner: '', activityCount: 0, estimatedTime: 0, actualTime: '', complexity: '', remarks: '' },
+            { step: 15, detail: 'Peer Review - Implementations and testing changes', owner: '', activityCount: 0, estimatedTime: 0, actualTime: '', complexity: '', remarks: '' },
+            { step: 16, detail: 'Testing - Functional (Business/OML IT)', owner: 'OML', activityCount: 0, estimatedTime: 0, actualTime: '', complexity: '', remarks: '' },
+            { step: 17, detail: 'Code Migration Doc, Change Template, TDD, etc', owner: 'ACS (OIC)', activityCount: 1, estimatedTime: 1, actualTime: '', complexity: 'Simple', remarks: 'Code Deployment Doc' },
+            { step: 18, detail: 'Code Movement to Test', owner: 'ACS (OIC)', activityCount: 1, estimatedTime: 1, actualTime: '', complexity: '', remarks: '' },
+            { step: 19, detail: 'Change Request to PROD', owner: 'ACS (OIC)', activityCount: 0, estimatedTime: 0, actualTime: '', complexity: 'Simple', remarks: '' },
+            { step: 20, detail: 'Post Production', owner: '', activityCount: 1, estimatedTime: 1, actualTime: '', complexity: '', remarks: '' }
+        ];
+
+        function renderActivities() {
+            const tbody = document.getElementById('activitiesBody');
+            tbody.innerHTML = '';
+            
+            activities.forEach((activity, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${activity.step}</td>
+                    <td><input type="text" value="${activity.detail}" onchange="updateActivity(${index}, 'detail', this.value)" style="width:100%; border:none; background:transparent;"></td>
+                    <td><input type="text" value="${activity.owner}" onchange="updateActivity(${index}, 'owner', this.value)" style="width:100%; border:none; background:transparent;"></td>
+                    <td><input type="number" value="${activity.activityCount}" onchange="updateActivity(${index}, 'activityCount', this.value)" style="width:100%; border:none; background:transparent;"></td>
+                    <td><input type="number" value="${activity.estimatedTime}" onchange="updateActivity(${index}, 'estimatedTime', this.value)" style="width:100%; border:none; background:transparent;"></td>
+                    <td><input type="number" value="${activity.actualTime}" onchange="updateActivity(${index}, 'actualTime', this.value)" style="width:100%; border:none; background:transparent;"></td>
+                    <td><input type="text" value="${activity.complexity}" onchange="updateActivity(${index}, 'complexity', this.value)" style="width:100%; border:none; background:transparent;"></td>
+                    <td><input type="text" value="${activity.remarks}" onchange="updateActivity(${index}, 'remarks', this.value)" style="width:100%; border:none; background:transparent;"></td>
+                    <td><button class="btn-delete" onclick="deleteActivity(${index})">🗑️</button></td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            updateTotals();
+        }
+
+        function updateActivity(index, field, value) {
+            activities[index][field] = value;
+            updateTotals();
+        }
+
+        function updateTotals() {
+            const totalEst = activities.reduce((sum, a) => sum + (Number(a.estimatedTime) || 0), 0);
+            const totalAct = activities.reduce((sum, a) => sum + (Number(a.actualTime) || 0), 0);
+            document.getElementById('totalEstimated').textContent = totalEst + ' hrs';
+            document.getElementById('totalActual').textContent = totalAct + ' hrs';
+        }
+
+        function addActivity() {
+            activities.push({
+                step: activities.length + 1,
+                detail: '',
+                owner: '',
+                activityCount: 0,
+                estimatedTime: 0,
+                actualTime: '',
+                complexity: '',
+                remarks: ''
+            });
+            renderActivities();
+        }
+
+        function deleteActivity(index) {
+            activities.splice(index, 1);
+            activities.forEach((activity, i) => {
+                activity.step = i + 1;
+            });
+            renderActivities();
+        }
+
+        function showToast(message, isSuccess = true) {
+            const toast = document.getElementById('toast');
+            toast.className = isSuccess ? 'toast success show' : 'toast error show';
+            toast.textContent = message;
+            setTimeout(() => {
+                toast.className = 'toast';
+            }, 3000);
+        }
+
+        function getProjectInfo() {
+            return {
+                jiraId: document.getElementById('jiraId').value,
+                srNumber: document.getElementById('srNumber').value,
+                estimationDate: document.getElementById('estimationDate').value,
+                approvedDate: document.getElementById('approvedDate').value,
+                ticketOwner: document.getElementById('ticketOwner').value,
+                functional: document.getElementById('functional').value,
+                oicResources: document.getElementById('oicResources').value,
+                csu: document.getElementById('csu').value
+            };
+        }
+
+        function generateHeader() {
+            const headers = ['Timestamp', 'JIRA_ID', 'SR_Number', 'Estimation_Date', 'Approved_Date', 
+                           'Ticket_Owner', 'Functional', 'OIC_Resources', 'CSU', 
+                           'Total_Estimated_Hours', 'Total_Actual_Hours'];
+            
+            for (let i = 1; i <= 30; i++) {
+                headers.push(`Step${i}_Detail`, `Step${i}_Owner`, `Step${i}_Count`, 
+                           `Step${i}_EstHrs`, `Step${i}_ActHrs`, `Step${i}_Complexity`, `Step${i}_Remarks`);
+            }
+            return headers;
+        }
+
+        function createRowData() {
+            const info = getProjectInfo();
+            const totalEst = activities.reduce((sum, a) => sum + (Number(a.estimatedTime) || 0), 0);
+            const totalAct = activities.reduce((sum, a) => sum + (Number(a.actualTime) || 0), 0);
+            
+            const row = [
+                new Date().toLocaleString(),
+                info.jiraId, info.srNumber, info.estimationDate, info.approvedDate,
+                info.ticketOwner, info.functional, info.oicResources, info.csu,
+                totalEst, totalAct
+            ];
+
+            for (let i = 0; i < 30; i++) {
+                if (i < activities.length) {
+                    const a = activities[i];
+                    row.push(a.detail || '', a.owner || '', a.activityCount || '', 
+                           a.estimatedTime || '', a.actualTime || '', a.complexity || '', a.remarks || '');
+                } else {
+                    row.push('', '', '', '', '', '', '');
+                }
+            }
+            return row;
+        }
+
+        function createNewDB() {
+            try {
+                const workbook = XLSX.utils.book_new();
+                const worksheet = XLSX.utils.aoa_to_sheet([generateHeader()]);
+                XLSX.utils.book_append_sheet(workbook, worksheet, 'MasterTable');
+                
+                const fileName = document.getElementById('dbFileName').value;
+                XLSX.writeFile(workbook, fileName);
+                
+                showToast('✓ Database file created: ' + fileName);
+            } catch (error) {
+                showToast('✗ Error: ' + error.message, false);
+            }
+        }
+
+        function saveToDB() {
+            const fileInput = document.getElementById('dbFileInput');
+            if (!fileInput.files[0]) {
+                showToast('⚠️ Please select database file first', false);
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const workbook = XLSX.read(new Uint8Array(e.target.result), { type: 'array' });
+                    let worksheet;
+                    
+                    if (workbook.SheetNames.includes('MasterTable')) {
+                        worksheet = workbook.Sheets['MasterTable'];
+                    } else {
+                        worksheet = XLSX.utils.aoa_to_sheet([generateHeader()]);
+                        XLSX.utils.book_append_sheet(workbook, worksheet, 'MasterTable');
+                    }
+                    
+                    const data = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+                    data.push(createRowData());
+                    
+                    const newWorksheet = XLSX.utils.aoa_to_sheet(data);
+                    workbook.Sheets['MasterTable'] = newWorksheet;
+                    
+                    const fileName = document.getElementById('dbFileName').value;
+                    XLSX.writeFile(workbook, fileName);
+                    
+                    showToast('✓ Entry saved! Total records: ' + (data.length - 1));
+                } catch (error) {
+                    showToast('✗ Error: ' + error.message, false);
+                }
+            };
+            reader.readAsArrayBuffer(fileInput.files[0]);
+        }
+
+        function loadFromDB() {
+            const fileInput = document.getElementById('dbFileInput');
+            if (!fileInput.files[0]) {
+                showToast('⚠️ Please select database file first', false);
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const workbook = XLSX.read(new Uint8Array(e.target.result), { type: 'array' });
+                    if (!workbook.SheetNames.includes('MasterTable')) {
+                        showToast('✗ No MasterTable found', false);
+                        return;
+                    }
+                    
+                    const worksheet = workbook.Sheets['MasterTable'];
+                    const data = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+                    
+                    if (data.length < 2) {
+                        showToast('✗ No data in database', false);
+                        return;
+                    }
+                    
+                    const lastRow = data[data.length - 1];
+                    
+                    document.getElementById('jiraId').value = lastRow[1] || '';
+                    document.getElementById('srNumber').value = lastRow[2] || '';
+                    document.getElementById('estimationDate').value = lastRow[3] || '';
+                    document.getElementById('approvedDate').value = lastRow[4] || '';
+                    document.getElementById('ticketOwner').value = lastRow[5] || '';
+                    document.getElementById('functional').value = lastRow[6] || '';
+                    document.getElementById('oicResources').value = lastRow[7] || '';
+                    document.getElementById('csu').value = lastRow[8] || '';
+                    
+                    activities = [];
+                    for (let i = 0; i < 30; i++) {
+                        const baseIdx = 11 + (i * 7);
+                        const detail = lastRow[baseIdx] || '';
+                        if (detail) {
+                            activities.push({
+                                step: i + 1,
+                                detail: detail,
+                                owner: lastRow[baseIdx + 1] || '',
+                                activityCount: lastRow[baseIdx + 2] || 0,
+                                estimatedTime: lastRow[baseIdx + 3] || 0,
+                                actualTime: lastRow[baseIdx + 4] || '',
+                                complexity: lastRow[baseIdx + 5] || '',
+                                remarks: lastRow[baseIdx + 6] || ''
+                            });
+                        }
+                    }
+                    
+                    renderActivities();
+                    showToast('✓ Data loaded! Total entries: ' + (data.length - 1));
+                } catch (error) {
+                    showToast('✗ Error: ' + error.message, false);
+                }
+            };
+            reader.readAsArrayBuffer(fileInput.files[0]);
+        }
+
+        renderActivities();
+    </script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+SELECT *
+FROM   xxagis_soap_connection_details
+WHERE  source = 'ERP';
+
+-- agis_call_bip_report
+-- https://epev-test.fa.em3.oraclecloud.com

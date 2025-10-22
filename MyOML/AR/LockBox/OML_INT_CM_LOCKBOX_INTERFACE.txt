@@ -1,0 +1,79 @@
+OML_INT_CM_LOCKBOX_INTERFACE
+1) REST Trigger 
+		/cm/lockbox/import/receipts -- POST operation
+		{
+			"ParentInterfaceName" : "Sample",
+			"ParentInterfaceInstanceID" : "Sample",
+			"IncomingFilename" : "Sample",
+			"ERPProcessID" : "Sample"
+			}
+2) Global variables assigning - 3 variables
+		Var_totalRecords =0
+		Var_sucessRecords =0
+		var_failureRecords =0
+3) SAOP Invoke to run the report usign the WSDL URL External Report WSSService
+	Mappings for the above ESSService
+		Reprot path : /Custom/Integration/Old Mutual - AR - Lockbox Statement Receipt/Old Mutual - AR - Lockbox Statement Receipts Report.xdo
+		Parameter is P_Request_id
+		
+		Value is ERP Process ID value from Step 1
+4) Stage file action -- Writing output file from step 3
+5) stage file action -- read output file
+6) invoke DBCS connection -- insert data into table 
+		table name : XXAR_LOCKBOX_INTERFACE_DETAILS
+	output file we got from step 3 is being inserted into above table
+7)Invoke DBCS Connection-- running SQL statement to get valid transactions
+	SELECT * FROM xxar_lockbox_interface_details WHERE PROCESSING_STATUS = 'PROCESSING'
+8) assigning total records -- var_totalrecords is updated with the count of records fetched from above query
+9) write stage file action -- Error file header(Error files)
+		fiel anme : NedBankReceiptReport.csv
+	
+10) for each valid transactions we got from step 7
+	inside Scope Main
+		a) Variable assign -- Var_CashReceiptId = ""
+		b) Swtich connection -- 
+			Route 1 -- when line status is Valid 
+				Invoking oracle cloud ERP Adaptor (query,create or delete information)
+				Opertion: CreateStandardReceipt
+					in above operation we are mapping below values
+						amount,customer receipt reference,Deposit date, currency code,GL Date,maturiy date,org id,receipt date,receipt methodid,receipt number,remittance bank account id,sturctured payment reference
+						
+				Invoking BDCS connection to update the cash receipt ID in the staging table
+				UPDATE xxar_lockbox_interface_details SET PROCESSING_STATUS = 'COMPLETED', CASH_RECEIPT_ID = #CASH_RECEIPT_ID WHERE RECEIPT_NUMBER = #RECEIPT_NUMBER (from the above cloud adaptor we are getting cash receipt id value in response)
+			
+				Assginging cash receipt id to the varibale defined in first step inside the main scope which we received from the response of ERP could adaptor
+				
+			OtherWise
+				Invoking DBCS COnenction to update status 
+				UPDATE xxar_lockbox_interface_details SET PROCESSING_STATUS = 'COMPLETED' WHERE RECEIPT_NUMBER = #RECEIPT_NUMBER
+				
+		c) outside of the switch connection 
+			Invoking Stage file action -- 	(success report)
+				file name:NedbankReceiptReport.CSV(same file which we created at step 9 --appending)
+					writing for each line
+	
+	Scope fault handler
+		Defining varible -- Var_failureRecords =$var_failurerecords+1.0(incrementing the count to +1 for each record)
+		
+		Stage file action : Error file (file which we created in step 9 --appending)
+			Writing error records
+			
+		Invoke DBCS connection -- updating staging table for failed records as status as failed along with error code, error reason and details against the receipt_number
+			UPDATE xxar_lockbox_interface_details SET PROCESSING_STATUS = 'FAILED', DETAILS = #ERROR_DETAILS WHERE RECEIPT_NUMBER = #RECEIPT_NUMBER
+			
+11) Assign variable -- updated the variable var_successRecords with var_totalRecords-var_failure Records
+12) invoking stage file action -- Download the error report file 
+					file name : NedbankReceiptReport.zip
+13) Switch connection 
+		Route 1= For success notification if var_failureRecords =0 
+			switch connection (lookupvalue('lookup_notification_details','IntegrationName',name,'Successnotificationstatus','N')= 'Y')
+					Sending email notification to the emails definied lookup "LOOKUP_NOTIFICATION_DETAILS"
+						subject as : Nedbank Bank receipts created successfully in enviorment 
+		Other wise
+			switch connection (lookupvalue('lookup_notification_details','IntegrationName',name,'Successnotificationstatus','N')= 'Y')
+			Sending email notification to the emails definied lookup "LOOKUP_NOTIFICATION_DETAILS"
+				Subejct as : Action required
+
+GLOBAL Fault Handler
+	Invoking integration OIC_Common_errorhandler OML_INT_COMMON_ERROR_HANDLE
+		

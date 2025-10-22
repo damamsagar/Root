@@ -1,0 +1,2173 @@
+<!DOCTYPE html>
+<!-- saved from url=(0113)file:///C:/Users/mammishr/Downloads/workflow_exports/Team_SALES_ORDER_CREDIT_CHECK_ASSISTANT_300100645607844.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Team Export Summary</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        .header h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .export-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 30px;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #bdc3c7;
+        }
+        .item {
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+        .item-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #34495e;
+            margin-bottom: 15px;
+        }
+        .property {
+            margin-bottom: 8px;
+        }
+        .key {
+            font-weight: 600;
+            color: #2980b9;
+            margin-right: 8px;
+        }
+        .value {
+            color: #555;
+        }
+        .object-value {
+            margin-left: 20px;
+            padding-left: 15px;
+            border-left: 2px solid #ecf0f1;
+        }
+        .array-value {
+            margin-left: 20px;
+        }
+        .array-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            background: #fff;
+            border-radius: 4px;
+            border: 1px solid #e8e8e8;
+        }
+        .array-index {
+            font-weight: 600;
+            color: #8e44ad;
+            margin-right: 10px;
+        }
+        .subsection {
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid #ecf0f1;
+        }
+        .subsection-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .stat-item {
+            background: #3498db;
+            color: white;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        .toc {
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 30px;
+        }
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .toc li {
+            margin-bottom: 5px;
+        }
+        .toc a {
+            color: #2980b9;
+            text-decoration: none;
+        }
+        .toc a:hover {
+            text-decoration: underline;
+        }
+        .json-pretty {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 12px;
+            margin: 8px 0;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 12px;
+            line-height: 1.4;
+            color: #333;
+            overflow-x: auto;
+            white-space: pre;
+        }
+        .formatted-text {
+            background: #fafbfc;
+            border: 1px solid #e1e8ed;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 8px 0;
+            line-height: 1.6;
+            color: #2c3e50;
+            max-width: 100%;
+            overflow-wrap: break-word;
+        }
+        .formatted-text p {
+            margin: 0 0 12px 0;
+            font-size: 14px;
+        }
+        .formatted-text p:last-child {
+            margin-bottom: 0;
+        }
+        .formatted-text br {
+            line-height: 1.8;
+        }
+        .specification-html {
+            background: #fafbfc;
+            border: 1px solid #e1e8ed;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 8px 0;
+            line-height: 1.6;
+            color: #2c3e50;
+            max-width: 100%;
+            overflow-wrap: break-word;
+        }
+        .spec-description {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .spec-parameters {
+            margin-bottom: 15px;
+        }
+        .spec-parameters ul {
+            margin: 8px 0 0 20px;
+            padding: 0;
+        }
+        .spec-parameters li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        .spec-parameters code {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #495057;
+            font-weight: 600;
+        }
+        .spec-required {
+            margin-bottom: 15px;
+        }
+        .spec-required code {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #856404;
+            font-weight: 600;
+        }
+        .spec-required .required {
+            background: #dc3545;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .spec-examples {
+            margin-bottom: 15px;
+        }
+        .spec-example {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 12px;
+            margin: 8px 0;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 12px;
+            line-height: 1.4;
+            color: #495057;
+            overflow-x: auto;
+        }
+        .spec-additional {
+            margin-bottom: 15px;
+        }
+        .spec-additional ul {
+            margin: 8px 0 0 20px;
+            padding: 0;
+        }
+        .spec-additional li {
+            margin-bottom: 5px;
+        }
+        .spec-additional code {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #495057;
+        }
+        .spec-debug {
+            margin-bottom: 15px;
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 4px;
+            padding: 10px;
+        }
+        .spec-debug ul {
+            margin: 8px 0 0 20px;
+            padding: 0;
+        }
+        .spec-debug li {
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Oracle Fusion Agent Team Export Summary</h1>
+            <p>Generated on 7/9/2025 at 8:20:31 PM</p>
+        </div>
+
+        <div class="export-info">
+            <h3>Export Information</h3>
+            <p><strong>Exported Team:</strong> Sales Order Credit Check Assistant</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number">1</div>
+                    <div class="stat-label">Teams</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">6</div>
+                    <div class="stat-label">Agents</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">7</div>
+                    <div class="stat-label">Tools</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">0</div>
+                    <div class="stat-label">Topics</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Business Objects</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">Deep Links</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="toc">
+            <h3>Agent Team Details</h3>
+            <ul>
+                <li><a href="file:///C:/Users/mammishr/Downloads/workflow_exports/Team_SALES_ORDER_CREDIT_CHECK_ASSISTANT_300100645607844.html#workflows">1. Agent Team Details</a></li>
+                <li><a href="file:///C:/Users/mammishr/Downloads/workflow_exports/Team_SALES_ORDER_CREDIT_CHECK_ASSISTANT_300100645607844.html#agents">2. Agent Details</a></li>
+                <li><a href="file:///C:/Users/mammishr/Downloads/workflow_exports/Team_SALES_ORDER_CREDIT_CHECK_ASSISTANT_300100645607844.html#tools">3. Tool Details</a></li>
+                <li><a href="file:///C:/Users/mammishr/Downloads/workflow_exports/Team_SALES_ORDER_CREDIT_CHECK_ASSISTANT_300100645607844.html#topics">4. Topic Details</a></li>
+                <li><a href="file:///C:/Users/mammishr/Downloads/workflow_exports/Team_SALES_ORDER_CREDIT_CHECK_ASSISTANT_300100645607844.html#business-objects">5. Business Object Details</a></li>
+                <li><a href="file:///C:/Users/mammishr/Downloads/workflow_exports/Team_SALES_ORDER_CREDIT_CHECK_ASSISTANT_300100645607844.html#deep-links">6. Deep Link Details</a></li>
+            </ul>
+        </div>
+
+        <div id="workflows" class="section">
+            <h2 class="section-title">1. Team Details</h2>
+            
+                <div class="item">
+                    <div class="item-title">Sales Order Credit Check Assistant (ID: 300100645607844)</div>
+                    <div class="property">
+            <span class="key">WorkflowId:</span>
+            <span class="value">300100645607844</span>
+          </div><div class="property">
+            <span class="key">WorkflowCode:</span>
+            <span class="value">SALES_ORDER_CREDIT_CHECK_ASSISTANT</span>
+          </div><div class="property">
+            <span class="key">Name:</span>
+            <span class="value">Sales Order Credit Check Assistant</span>
+          </div><div class="property">
+            <span class="key">Description:</span>
+            <span class="value"><div class="formatted-text"><p>Sales Order Credit Check Assistant. An assistant that will help you check order and order line status for credit holds, validate customer credit limits and release holds. A smart assistant that can also answer your queries related to customer credit policies governing the organization.</p></div></span>
+          </div><div class="property">
+            <span class="key">Family:</span>
+            <span class="value">SCM</span>
+          </div><div class="property">
+            <span class="key">Product:</span>
+            <span class="value">ORDER_MANAGEMENT</span>
+          </div><div class="property">
+            <span class="key">OwnerId:</span>
+            <span class="value">300100036658848</span>
+          </div><div class="property">
+            <span class="key">OwnerName:</span>
+            <span class="value">Patric</span>
+          </div><div class="property">
+            <span class="key">SeededFlag:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">HiddenFlag:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Status:</span>
+            <span class="value">PUBLISHED</span>
+          </div><div class="property">
+            <span class="key">Version:</span>
+            <span class="value">1</span>
+          </div><div class="property">
+            <span class="key">UseCaseId:</span>
+            <span class="value">NA</span>
+          </div><div class="property">
+            <span class="key">SourceWorkflowId:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">AccessModifier:</span>
+            <span class="value">public</span>
+          </div><div class="property">
+            <span class="key">Specification:</span>
+            <span class="value"><div class="specification-html"><p>No specification content available</p></div></span>
+          </div><div class="property">
+            <span class="key">Architecture:</span>
+            <span class="value">group</span>
+          </div><div class="property">
+            <span class="key">StartQuestionOne:</span>
+            <span class="value">Query Sales Order and Line Details</span>
+          </div><div class="property">
+            <span class="key">StartQuestionTwo:</span>
+            <span class="value">Release Holds from order lines</span>
+          </div><div class="property">
+            <span class="key">StartQuestionThree:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">FollowUpPromptEnabledFlag:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">FollowUpPrompt:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">ModelConfigId:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">MaximumInteractions:</span>
+            <span class="value">10</span>
+          </div><div class="property">
+            <span class="key">StartAgentId:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">WorkflowRoles:</span>
+            <div class="object-value">
+              
+            </div>
+          </div>
+                </div>
+              
+        </div>
+
+        <div id="agents" class="section">
+            <h2 class="section-title">2. Agent Details</h2>
+            
+                  <div class="item">
+                      <div class="item-title">Sales Orders Credit Check Supervisor (ID: 300100645623368)</div>
+                      <div class="property">
+            <span class="key">AgentId:</span>
+            <span class="value">300100645623368</span>
+          </div><div class="property">
+            <span class="key">AgentCode:</span>
+            <span class="value">SALES_ORDERS_CREDIT_CHECK_SUPERVISOR</span>
+          </div><div class="property">
+            <span class="key">Name:</span>
+            <span class="value">Sales Orders Credit Check Supervisor</span>
+          </div><div class="property">
+            <span class="key">Description:</span>
+            <span class="value"><div class="formatted-text"><p>This Supervisor agent can do 1 of the below actions based on user selection or user request:<br>1. Get Sales Order and sales order line details with link to sales order. Get order link.<br>2. Release Holds on Sales Order<br>3. Do Calculations: Perform mathematical operations. Given a String you should extract the mathematical expression and provide the expression.<br>4. Get Customer Credit Details Report when user gives customer account number<br>5.Get answers related to customer policies from Customer Credit Policy Advisor</p></div></span>
+          </div><div class="property">
+            <span class="key">Family:</span>
+            <span class="value">SCM</span>
+          </div><div class="property">
+            <span class="key">Product:</span>
+            <span class="value">ORDER_MANAGEMENT</span>
+          </div><div class="property">
+            <span class="key">AgentCreatedDate:</span>
+            <span class="value">2025-06-27</span>
+          </div><div class="property">
+            <span class="key">OwnerId:</span>
+            <span class="value">300100036658848</span>
+          </div><div class="property">
+            <span class="key">OwnerName:</span>
+            <span class="value">Patric</span>
+          </div><div class="property">
+            <span class="key">Status:</span>
+            <span class="value">PUBLISHED</span>
+          </div><div class="property">
+            <span class="key">SeededFlag:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">ModuleId:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Namespace:</span>
+            <span class="value">SCM.ORDER_MANAGEMENT</span>
+          </div><div class="property">
+            <span class="key">PromptCode:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Specification:</span>
+            <span class="value"><div class="specification-html"><div class="spec-debug"><strong>Available specification fields:</strong><ul><li><strong>summarizationMode:</strong> Default</li><li><strong>summarizationPrompt:</strong> Based on the information through the chat history and/or tool call responses, construct a clear, professional, and user-friendly answer to address the user's original query.
+construct an answer that addresses the user's original query.
+Your answer should be directed towards the user and should be friendly, professional,
+and concise. If you are not able to answer the user's question based on the tool calls or through the chat history,
+you should let them know that you do not have access to that information.
+
+--ANSWER REQUIREMENTS--
+Your answer should be based only on the information available to you in the tool calling chat
+history. You should never invent or make up answers. If the question requires you to synthesize
+answers across several tool responses, you should do that. Note that some information may need
+to be summarized from across multiple places in a given object. Use your inference and semantic
+knowledge to derive the answer from the data without inventing anything.
+
+--ADDITIONAL REQUIREMENTS--
+* Do not mention tool calls, chat history, underlying operations, or system processes.
+* Keep the response natural and conversational without unnecessary preambles.
+* Provide a direct and engaging response without phrases like "Based on tool calls" or similar references.
+* Do not append any characters or trailing Periods (.) at the end of valid URLs.
+* If link is generated by DeepLink tool do not remove from response.</li></ul></div></div></span>
+          </div><div class="property">
+            <span class="key">Version:</span>
+            <span class="value">1</span>
+          </div><div class="property">
+            <span class="key">MaximumInteractions:</span>
+            <span class="value">10</span>
+          </div><div class="property">
+            <span class="key">AgentType:</span>
+            <span class="value">SUPERVISOR</span>
+          </div><div class="property">
+            <span class="key">Prompt:</span>
+            <span class="value"><div class="formatted-text"><p>You are a planning agent.<br>    Your job is to break down complex tasks into smaller, manageable subtasks and delegate the task to only one of the agents..<br>    Do not respond to tasks which cannot be done by the agents listed below. In this situation<br>    provide a message to the end user explaining what kind of tasks can be performed based on the known agents.  Your job is only to plan and delegate tasks to the known agents - Do not invoke the task on your own.   Make sure only one agent can be invoked at a time. {listOfAvailableAgents}</p><p>You can do 1 of the below actions based on user selection or user request:<br>1. Get Sales Order and sales order line details with link to sales order. Get order link.<br>2. Release Holds on Sales Order<br>3. Do Calculations: Perform mathematical operations. Given a String you should extract the mathematical expression and provide the expression.<br>4. Get Customer Credit Details Report when user gives customer account number<br>5.Get answers related to customer policies from Customer Credit Policy Advisor</p><p>Please say TERMINATE when the whole job is completed.</p></div></span>
+          </div><div class="property">
+            <span class="key">ModelConfigId:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">ReusableFlag:</span>
+            <span class="value">N/A</span>
+          </div>
+                  </div>
+                
+                  <div class="item">
+                      <div class="item-title">getandreleaseHoldsAgent (ID: 300100645334733)</div>
+                      <div class="property">
+            <span class="key">AgentId:</span>
+            <span class="value">300100645334733</span>
+          </div><div class="property">
+            <span class="key">AgentCode:</span>
+            <span class="value">GETANDRELEASEHOLDSAGENT</span>
+          </div><div class="property">
+            <span class="key">Name:</span>
+            <span class="value">getandreleaseHoldsAgent</span>
+          </div><div class="property">
+            <span class="key">Description:</span>
+            <span class="value"><div class="formatted-text"><p>This agent will allow you to release holds on a sales order</p></div></span>
+          </div><div class="property">
+            <span class="key">Family:</span>
+            <span class="value">SCM</span>
+          </div><div class="property">
+            <span class="key">Product:</span>
+            <span class="value">ORDER_MANAGEMENT</span>
+          </div><div class="property">
+            <span class="key">AgentCreatedDate:</span>
+            <span class="value">2025-06-26</span>
+          </div><div class="property">
+            <span class="key">OwnerId:</span>
+            <span class="value">300100036658848</span>
+          </div><div class="property">
+            <span class="key">OwnerName:</span>
+            <span class="value">Patric</span>
+          </div><div class="property">
+            <span class="key">Status:</span>
+            <span class="value">PUBLISHED</span>
+          </div><div class="property">
+            <span class="key">SeededFlag:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">ModuleId:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Namespace:</span>
+            <span class="value">SCM.ORDER_MANAGEMENT</span>
+          </div><div class="property">
+            <span class="key">PromptCode:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Specification:</span>
+            <span class="value"><div class="specification-html"><div class="spec-debug"><strong>Available specification fields:</strong><ul><li><strong>summarizationMode:</strong> Default</li><li><strong>summarizationPrompt:</strong> Based on the information through the chat history and/or tool call responses, construct a clear, professional, and user-friendly answer to address the user's original query.
+construct an answer that addresses the user's original query.
+Your answer should be directed towards the user and should be friendly, professional,
+and concise. If you are not able to answer the user's question based on the tool calls or through the chat history,
+you should let them know that you do not have access to that information.
+
+--ANSWER REQUIREMENTS--
+Your answer should be based only on the information available to you in the tool calling chat
+history. You should never invent or make up answers. If the question requires you to synthesize
+answers across several tool responses, you should do that. Note that some information may need
+to be summarized from across multiple places in a given object. Use your inference and semantic
+knowledge to derive the answer from the data without inventing anything.
+
+--ADDITIONAL REQUIREMENTS--
+* Do not mention tool calls, chat history, underlying operations, or system processes.
+* Keep the response natural and conversational without unnecessary preambles.
+* Provide a direct and engaging response without phrases like "Based on tool calls" or similar references.
+* Do not append any characters or trailing Periods (.) at the end of valid URLs.
+* If link is generated by DeepLink tool do not remove from response.</li></ul></div></div></span>
+          </div><div class="property">
+            <span class="key">Version:</span>
+            <span class="value">1</span>
+          </div><div class="property">
+            <span class="key">MaximumInteractions:</span>
+            <span class="value">10</span>
+          </div><div class="property">
+            <span class="key">AgentType:</span>
+            <span class="value">WORKER</span>
+          </div><div class="property">
+            <span class="key">Prompt:</span>
+            <span class="value"><div class="formatted-text"><p>You are a worker agent to release hold from sales order lines based on user request.</p><p>You need user to input FulfillLineId.<br>Example of User Input: FulfillLineId</p><p>If you do not get user input in proper format you ask user to check and input correct FulfillLineId to proceed.</p></div></span>
+          </div><div class="property">
+            <span class="key">ModelConfigId:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">ReusableFlag:</span>
+            <span class="value">true</span>
+          </div>
+                  </div>
+                
+                  <div class="item">
+                      <div class="item-title">MM_SO_Agent (ID: 300100645404516)</div>
+                      <div class="property">
+            <span class="key">AgentId:</span>
+            <span class="value">300100645404516</span>
+          </div><div class="property">
+            <span class="key">AgentCode:</span>
+            <span class="value">MMSOAGENT</span>
+          </div><div class="property">
+            <span class="key">Name:</span>
+            <span class="value">MM_SO_Agent</span>
+          </div><div class="property">
+            <span class="key">Description:</span>
+            <span class="value"><div class="formatted-text"><p>Get and Update Sales Order and sales order lines. Get a link to the sales order using sales order deeplink</p></div></span>
+          </div><div class="property">
+            <span class="key">Family:</span>
+            <span class="value">SCM</span>
+          </div><div class="property">
+            <span class="key">Product:</span>
+            <span class="value">ORDER_MANAGEMENT</span>
+          </div><div class="property">
+            <span class="key">AgentCreatedDate:</span>
+            <span class="value">2025-06-26</span>
+          </div><div class="property">
+            <span class="key">OwnerId:</span>
+            <span class="value">300100036658848</span>
+          </div><div class="property">
+            <span class="key">OwnerName:</span>
+            <span class="value">Patric</span>
+          </div><div class="property">
+            <span class="key">Status:</span>
+            <span class="value">PUBLISHED</span>
+          </div><div class="property">
+            <span class="key">SeededFlag:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">ModuleId:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Namespace:</span>
+            <span class="value">SCM.ORDER_MANAGEMENT</span>
+          </div><div class="property">
+            <span class="key">PromptCode:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Specification:</span>
+            <span class="value"><div class="specification-html"><div class="spec-debug"><strong>Available specification fields:</strong><ul><li><strong>summarizationMode:</strong> Default</li><li><strong>summarizationPrompt:</strong> Based on the information through the chat history and/or tool call responses, construct a clear, professional, and user-friendly answer to address the user's original query.
+construct an answer that addresses the user's original query.
+Your answer should be directed towards the user and should be friendly, professional,
+and concise. If you are not able to answer the user's question based on the tool calls or through the chat history,
+you should let them know that you do not have access to that information.
+
+--ANSWER REQUIREMENTS--
+Your answer should be based only on the information available to you in the tool calling chat
+history. You should never invent or make up answers. If the question requires you to synthesize
+answers across several tool responses, you should do that. Note that some information may need
+to be summarized from across multiple places in a given object. Use your inference and semantic
+knowledge to derive the answer from the data without inventing anything.
+
+--ADDITIONAL REQUIREMENTS--
+* Do not mention tool calls, chat history, underlying operations, or system processes.
+* Keep the response natural and conversational without unnecessary preambles.
+* Provide a direct and engaging response without phrases like "Based on tool calls" or similar references.
+* Do not append any characters or trailing Periods (.) at the end of valid URLs.
+* If link is generated by DeepLink tool do not remove from response.</li></ul></div></div></span>
+          </div><div class="property">
+            <span class="key">Version:</span>
+            <span class="value">1</span>
+          </div><div class="property">
+            <span class="key">MaximumInteractions:</span>
+            <span class="value">10</span>
+          </div><div class="property">
+            <span class="key">AgentType:</span>
+            <span class="value">WORKER</span>
+          </div><div class="property">
+            <span class="key">Prompt:</span>
+            <span class="value"><div class="formatted-text"><p>You are an agent to get sales order and order line details. You also get the link to the sales order using sales order deep link tool.</p><p>Below are the 2 tools you use:<br>1. sales Order Deeplink : To get link of sales order for input order number<br>2. MM_SOTool : To get sales order and order line details for input order number</p></div></span>
+          </div><div class="property">
+            <span class="key">ModelConfigId:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">ReusableFlag:</span>
+            <span class="value">true</span>
+          </div>
+                  </div>
+                
+                  <div class="item">
+                      <div class="item-title">QuickcalculationAgent (ID: 300100645504882)</div>
+                      <div class="property">
+            <span class="key">AgentId:</span>
+            <span class="value">300100645504882</span>
+          </div><div class="property">
+            <span class="key">AgentCode:</span>
+            <span class="value">QUICKCALCULATIONAGENT</span>
+          </div><div class="property">
+            <span class="key">Name:</span>
+            <span class="value">QuickcalculationAgent</span>
+          </div><div class="property">
+            <span class="key">Description:</span>
+            <span class="value"><div class="formatted-text"><p>This is an agent for enabling quick calculations based on user inputs. This agent can also fetch logged in user details.</p></div></span>
+          </div><div class="property">
+            <span class="key">Family:</span>
+            <span class="value">SCM</span>
+          </div><div class="property">
+            <span class="key">Product:</span>
+            <span class="value">ORDER_MANAGEMENT</span>
+          </div><div class="property">
+            <span class="key">AgentCreatedDate:</span>
+            <span class="value">2025-06-26</span>
+          </div><div class="property">
+            <span class="key">OwnerId:</span>
+            <span class="value">300100036658848</span>
+          </div><div class="property">
+            <span class="key">OwnerName:</span>
+            <span class="value">Patric</span>
+          </div><div class="property">
+            <span class="key">Status:</span>
+            <span class="value">PUBLISHED</span>
+          </div><div class="property">
+            <span class="key">SeededFlag:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">ModuleId:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Namespace:</span>
+            <span class="value">SCM.ORDER_MANAGEMENT</span>
+          </div><div class="property">
+            <span class="key">PromptCode:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Specification:</span>
+            <span class="value"><div class="specification-html"><div class="spec-debug"><strong>Available specification fields:</strong><ul><li><strong>summarizationMode:</strong> Default</li><li><strong>summarizationPrompt:</strong> Based on the information through the chat history and/or tool call responses, construct a clear, professional, and user-friendly answer to address the user's original query.
+construct an answer that addresses the user's original query.
+Your answer should be directed towards the user and should be friendly, professional,
+and concise. If you are not able to answer the user's question based on the tool calls or through the chat history,
+you should let them know that you do not have access to that information.
+
+--ANSWER REQUIREMENTS--
+Your answer should be based only on the information available to you in the tool calling chat
+history. You should never invent or make up answers. If the question requires you to synthesize
+answers across several tool responses, you should do that. Note that some information may need
+to be summarized from across multiple places in a given object. Use your inference and semantic
+knowledge to derive the answer from the data without inventing anything.
+
+--ADDITIONAL REQUIREMENTS--
+* Do not mention tool calls, chat history, underlying operations, or system processes.
+* Keep the response natural and conversational without unnecessary preambles.
+* Provide a direct and engaging response without phrases like "Based on tool calls" or similar references.
+* Do not append any characters or trailing Periods (.) at the end of valid URLs.
+* If link is generated by DeepLink tool do not remove from response.</li></ul></div></div></span>
+          </div><div class="property">
+            <span class="key">Version:</span>
+            <span class="value">1</span>
+          </div><div class="property">
+            <span class="key">MaximumInteractions:</span>
+            <span class="value">10</span>
+          </div><div class="property">
+            <span class="key">AgentType:</span>
+            <span class="value">WORKER</span>
+          </div><div class="property">
+            <span class="key">Prompt:</span>
+            <span class="value"><div class="formatted-text"><p>You are a smart agent to calculate based on user inputs. You can also fetch logged in user details.</p></div></span>
+          </div><div class="property">
+            <span class="key">ModelConfigId:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">ReusableFlag:</span>
+            <span class="value">true</span>
+          </div>
+                  </div>
+                
+                  <div class="item">
+                      <div class="item-title">XXCL_ Customer Credit Policy Advisor (ID: 300100645473003)</div>
+                      <div class="property">
+            <span class="key">AgentId:</span>
+            <span class="value">300100645473003</span>
+          </div><div class="property">
+            <span class="key">AgentCode:</span>
+            <span class="value">XXCL_CUSTOMER_CREDIT_POLICY_ADVISOR</span>
+          </div><div class="property">
+            <span class="key">Name:</span>
+            <span class="value">XXCL_ Customer Credit Policy Advisor</span>
+          </div><div class="property">
+            <span class="key">Description:</span>
+            <span class="value"><div class="formatted-text"><p>this is an agent to respond to questions asked based on customer credit policy</p></div></span>
+          </div><div class="property">
+            <span class="key">Family:</span>
+            <span class="value">SCM</span>
+          </div><div class="property">
+            <span class="key">Product:</span>
+            <span class="value">ORDER_MANAGEMENT</span>
+          </div><div class="property">
+            <span class="key">AgentCreatedDate:</span>
+            <span class="value">2025-06-26</span>
+          </div><div class="property">
+            <span class="key">OwnerId:</span>
+            <span class="value">300100036658848</span>
+          </div><div class="property">
+            <span class="key">OwnerName:</span>
+            <span class="value">Patric</span>
+          </div><div class="property">
+            <span class="key">Status:</span>
+            <span class="value">PUBLISHED</span>
+          </div><div class="property">
+            <span class="key">SeededFlag:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">ModuleId:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Namespace:</span>
+            <span class="value">SCM.ORDER_MANAGEMENT</span>
+          </div><div class="property">
+            <span class="key">PromptCode:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Specification:</span>
+            <span class="value"><div class="specification-html"><div class="spec-debug"><strong>Available specification fields:</strong><ul><li><strong>summarizationMode:</strong> Default</li><li><strong>summarizationPrompt:</strong> Based on the information through the chat history and/or tool call responses, construct a clear, professional, and user-friendly answer to address the user's original query.
+construct an answer that addresses the user's original query.
+Your answer should be directed towards the user and should be friendly, professional,
+and concise. If you are not able to answer the user's question based on the tool calls or through the chat history,
+you should let them know that you do not have access to that information.
+
+--ANSWER REQUIREMENTS--
+Your answer should be based only on the information available to you in the tool calling chat
+history. You should never invent or make up answers. If the question requires you to synthesize
+answers across several tool responses, you should do that. Note that some information may need
+to be summarized from across multiple places in a given object. Use your inference and semantic
+knowledge to derive the answer from the data without inventing anything.
+
+--ADDITIONAL REQUIREMENTS--
+* Do not mention tool calls, chat history, underlying operations, or system processes.
+* Keep the response natural and conversational without unnecessary preambles.
+* Provide a direct and engaging response without phrases like "Based on tool calls" or similar references.
+* Do not append any characters or trailing Periods (.) at the end of valid URLs.
+* If link is generated by DeepLink tool do not remove from response.</li></ul></div></div></span>
+          </div><div class="property">
+            <span class="key">Version:</span>
+            <span class="value">1</span>
+          </div><div class="property">
+            <span class="key">MaximumInteractions:</span>
+            <span class="value">10</span>
+          </div><div class="property">
+            <span class="key">AgentType:</span>
+            <span class="value">WORKER</span>
+          </div><div class="property">
+            <span class="key">Prompt:</span>
+            <span class="value"><div class="formatted-text"><p>You are an agent who uses a RAG Tool to respond to questions based on Customer Credit Policies document.</p></div></span>
+          </div><div class="property">
+            <span class="key">ModelConfigId:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">ReusableFlag:</span>
+            <span class="value">true</span>
+          </div>
+                  </div>
+                
+                  <div class="item">
+                      <div class="item-title">XXCL_Deeplink_Agent (ID: 300100645277448)</div>
+                      <div class="property">
+            <span class="key">AgentId:</span>
+            <span class="value">300100645277448</span>
+          </div><div class="property">
+            <span class="key">AgentCode:</span>
+            <span class="value">XXCLDEEPLINKAGENT</span>
+          </div><div class="property">
+            <span class="key">Name:</span>
+            <span class="value">XXCL_Deeplink_Agent</span>
+          </div><div class="property">
+            <span class="key">Description:</span>
+            <span class="value"><div class="formatted-text"><p>This is an agent to fetch the deeplink for customer credit details report only when user asks for customer credit details. Report has data like available credit, total open authorizations, open receivables based on customer account number or customer name entered by user.</p></div></span>
+          </div><div class="property">
+            <span class="key">Family:</span>
+            <span class="value">SCM</span>
+          </div><div class="property">
+            <span class="key">Product:</span>
+            <span class="value">ORDER_MANAGEMENT</span>
+          </div><div class="property">
+            <span class="key">AgentCreatedDate:</span>
+            <span class="value">2025-06-26</span>
+          </div><div class="property">
+            <span class="key">OwnerId:</span>
+            <span class="value">300100036658848</span>
+          </div><div class="property">
+            <span class="key">OwnerName:</span>
+            <span class="value">Patric</span>
+          </div><div class="property">
+            <span class="key">Status:</span>
+            <span class="value">PUBLISHED</span>
+          </div><div class="property">
+            <span class="key">SeededFlag:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">ModuleId:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Namespace:</span>
+            <span class="value">SCM.ORDER_MANAGEMENT</span>
+          </div><div class="property">
+            <span class="key">PromptCode:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Specification:</span>
+            <span class="value"><div class="specification-html"><div class="spec-debug"><strong>Available specification fields:</strong><ul><li><strong>summarizationMode:</strong> Default</li><li><strong>summarizationPrompt:</strong> Based on the information through the chat history and/or tool call responses, construct a clear, professional, and user-friendly answer to address the user's original query.
+construct an answer that addresses the user's original query.
+Your answer should be directed towards the user and should be friendly, professional,
+and concise. If you are not able to answer the user's question based on the tool calls or through the chat history,
+you should let them know that you do not have access to that information.
+
+--ANSWER REQUIREMENTS--
+Your answer should be based only on the information available to you in the tool calling chat
+history. You should never invent or make up answers. If the question requires you to synthesize
+answers across several tool responses, you should do that. Note that some information may need
+to be summarized from across multiple places in a given object. Use your inference and semantic
+knowledge to derive the answer from the data without inventing anything.
+
+--ADDITIONAL REQUIREMENTS--
+* Do not mention tool calls, chat history, underlying operations, or system processes.
+* Keep the response natural and conversational without unnecessary preambles.
+* Provide a direct and engaging response without phrases like "Based on tool calls" or similar references.
+* Do not append any characters or trailing Periods (.) at the end of valid URLs.
+* If link is generated by DeepLink tool do not remove from response.</li></ul></div></div></span>
+          </div><div class="property">
+            <span class="key">Version:</span>
+            <span class="value">1</span>
+          </div><div class="property">
+            <span class="key">MaximumInteractions:</span>
+            <span class="value">10</span>
+          </div><div class="property">
+            <span class="key">AgentType:</span>
+            <span class="value">WORKER</span>
+          </div><div class="property">
+            <span class="key">Prompt:</span>
+            <span class="value"><div class="formatted-text"><p>You are an agent to fetch the deeplink for customer credit details report only when user asks for customer credit details. You do not answer to regular sales order number inputs. Report has data like available credit, total open authorizations, open receivables based on customer account number or customer name entered by user.</p><p>You respond to queries like "Can you fetch the customer credit report"</p></div></span>
+          </div><div class="property">
+            <span class="key">ModelConfigId:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">ReusableFlag:</span>
+            <span class="value">true</span>
+          </div>
+                  </div>
+                
+        </div>
+
+        <div id="tools" class="section">
+            <h2 class="section-title">3. Tool Details</h2>
+            
+                <div class="item">
+                    <div class="item-title">deeplink toll for XXCL_CreditLimtAvailability (ID: 300100645334838)</div>
+                    <div class="property">
+            <span class="key">ToolId:</span>
+            <span class="value">300100645334838</span>
+          </div><div class="property">
+            <span class="key">ToolCode:</span>
+            <span class="value">DEEPLINK_TOLL_FOR_XXCLCREDITLIMTAVAILABILITY</span>
+          </div><div class="property">
+            <span class="key">Type:</span>
+            <span class="value">DEEPLINK</span>
+          </div><div class="property">
+            <span class="key">Name:</span>
+            <span class="value">deeplink toll for XXCL_CreditLimtAvailability</span>
+          </div><div class="property">
+            <span class="key">Description:</span>
+            <span class="value"><div class="formatted-text"><p>This tool gets a deeplink for customer credit details report for a given customer account number entered by user</p></div></span>
+          </div><div class="property">
+            <span class="key">Family:</span>
+            <span class="value">SCM</span>
+          </div><div class="property">
+            <span class="key">Product:</span>
+            <span class="value">ORDER_MANAGEMENT</span>
+          </div><div class="property">
+            <span class="key">ToolCreatedDate:</span>
+            <span class="value">2025-06-26</span>
+          </div><div class="property">
+            <span class="key">OwnerId:</span>
+            <span class="value">300100036658848</span>
+          </div><div class="property">
+            <span class="key">OwnerName:</span>
+            <span class="value">Patric</span>
+          </div><div class="property">
+            <span class="key">Status:</span>
+            <span class="value">PUBLISHED</span>
+          </div><div class="property">
+            <span class="key">SeededFlag:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">HiddenFlag:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">ModuleId:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Namespace:</span>
+            <span class="value">SCM.ORDER_MANAGEMENT</span>
+          </div><div class="property">
+            <span class="key">Version:</span>
+            <span class="value">1</span>
+          </div><div class="property">
+            <span class="key">UserInputRequiredFlag:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Specification:</span>
+            <span class="value"><div class="specification-html"><p>No specification content available</p></div></span>
+          </div><div class="property">
+            <span class="key">UserInputMsg:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Documents:</span>
+            <div class="object-value">
+              
+            </div>
+          </div><div class="property">
+            <span class="key">MsgDlvyOptns:</span>
+            <div class="object-value">
+              
+            </div>
+          </div><div class="property">
+            <span class="key">RestTool:</span>
+            <div class="object-value">
+              
+            </div>
+          </div>
+                </div>
+              
+                <div class="item">
+                    <div class="item-title">GetHoldsTool (ID: 300100645335753)</div>
+                    <div class="property">
+            <span class="key">ToolId:</span>
+            <span class="value">300100645335753</span>
+          </div><div class="property">
+            <span class="key">ToolCode:</span>
+            <span class="value">GETHOLDSTOOL</span>
+          </div><div class="property">
+            <span class="key">Type:</span>
+            <span class="value">BUS_OBJECT</span>
+          </div><div class="property">
+            <span class="key">Name:</span>
+            <span class="value">GetHoldsTool</span>
+          </div><div class="property">
+            <span class="key">Description:</span>
+            <span class="value">This tool will check for holds on a sales order</span>
+          </div><div class="property">
+            <span class="key">Family:</span>
+            <span class="value">SCM</span>
+          </div><div class="property">
+            <span class="key">Product:</span>
+            <span class="value">ORDER_MANAGEMENT</span>
+          </div><div class="property">
+            <span class="key">ToolCreatedDate:</span>
+            <span class="value">2025-06-26</span>
+          </div><div class="property">
+            <span class="key">OwnerId:</span>
+            <span class="value">300100036658848</span>
+          </div><div class="property">
+            <span class="key">OwnerName:</span>
+            <span class="value">Patric</span>
+          </div><div class="property">
+            <span class="key">Status:</span>
+            <span class="value">PUBLISHED</span>
+          </div><div class="property">
+            <span class="key">SeededFlag:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">HiddenFlag:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">ModuleId:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Namespace:</span>
+            <span class="value">SCM.ORDER_MANAGEMENT</span>
+          </div><div class="property">
+            <span class="key">Version:</span>
+            <span class="value">1</span>
+          </div><div class="property">
+            <span class="key">UserInputRequiredFlag:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Specification:</span>
+            <span class="value"><div class="specification-html"><p>No specification content available</p></div></span>
+          </div><div class="property">
+            <span class="key">UserInputMsg:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Documents:</span>
+            <div class="object-value">
+              
+            </div>
+          </div><div class="property">
+            <span class="key">MsgDlvyOptns:</span>
+            <div class="object-value">
+              
+            </div>
+          </div><div class="property">
+            <span class="key">RestTool:</span>
+            <div class="object-value">
+                <div class="property">
+                  <span class="key">items[0]:</span>
+                  <div class="object-value">
+                        <div class="property">
+            <span class="key">RestToolId:</span>
+            <span class="value">300100645334830</span>
+          </div>    <div class="property">
+            <span class="key">ToolId:</span>
+            <span class="value">300100645335753</span>
+          </div>    <div class="property">
+            <span class="key">ToolCode:</span>
+            <span class="value">GETHOLDSTOOL</span>
+          </div>    <div class="property">
+            <span class="key">SupptObjectId:</span>
+            <span class="value">300100643000105</span>
+          </div>    <div class="property">
+            <span class="key">Specification:</span>
+            <span class="value">N/A</span>
+          </div>    <div class="property">
+            <span class="key">PayloadTemplate:</span>
+            <span class="value">N/A</span>
+          </div>    <div class="property">
+            <span class="key">SeededFlag:</span>
+            <span class="value">N/A</span>
+          </div>    <div class="property">
+            <span class="key">ModuleId:</span>
+            <span class="value">N/A</span>
+          </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+                </div>
+              
+                <div class="item">
+                    <div class="item-title">MM_SOTool (ID: 300100645470641)</div>
+                    <div class="property">
+            <span class="key">ToolId:</span>
+            <span class="value">300100645470641</span>
+          </div><div class="property">
+            <span class="key">ToolCode:</span>
+            <span class="value">MMSOTOOL</span>
+          </div><div class="property">
+            <span class="key">Type:</span>
+            <span class="value">BUS_OBJECT</span>
+          </div><div class="property">
+            <span class="key">Name:</span>
+            <span class="value">MM_SOTool</span>
+          </div><div class="property">
+            <span class="key">Description:</span>
+            <span class="value">This is a tool to get sales order and line details</span>
+          </div><div class="property">
+            <span class="key">Family:</span>
+            <span class="value">SCM</span>
+          </div><div class="property">
+            <span class="key">Product:</span>
+            <span class="value">ORDER_MANAGEMENT</span>
+          </div><div class="property">
+            <span class="key">ToolCreatedDate:</span>
+            <span class="value">2025-06-26</span>
+          </div><div class="property">
+            <span class="key">OwnerId:</span>
+            <span class="value">300100036658848</span>
+          </div><div class="property">
+            <span class="key">OwnerName:</span>
+            <span class="value">Patric</span>
+          </div><div class="property">
+            <span class="key">Status:</span>
+            <span class="value">PUBLISHED</span>
+          </div><div class="property">
+            <span class="key">SeededFlag:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">HiddenFlag:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">ModuleId:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Namespace:</span>
+            <span class="value">SCM.ORDER_MANAGEMENT</span>
+          </div><div class="property">
+            <span class="key">Version:</span>
+            <span class="value">1</span>
+          </div><div class="property">
+            <span class="key">UserInputRequiredFlag:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Specification:</span>
+            <span class="value"><div class="specification-html"><p>No specification content available</p></div></span>
+          </div><div class="property">
+            <span class="key">UserInputMsg:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Documents:</span>
+            <div class="object-value">
+              
+            </div>
+          </div><div class="property">
+            <span class="key">MsgDlvyOptns:</span>
+            <div class="object-value">
+              
+            </div>
+          </div><div class="property">
+            <span class="key">RestTool:</span>
+            <div class="object-value">
+                <div class="property">
+                  <span class="key">items[0]:</span>
+                  <div class="object-value">
+                        <div class="property">
+            <span class="key">RestToolId:</span>
+            <span class="value">300100645470945</span>
+          </div>    <div class="property">
+            <span class="key">ToolId:</span>
+            <span class="value">300100645470641</span>
+          </div>    <div class="property">
+            <span class="key">ToolCode:</span>
+            <span class="value">MMSOTOOL</span>
+          </div>    <div class="property">
+            <span class="key">SupptObjectId:</span>
+            <span class="value">300100638408840</span>
+          </div>    <div class="property">
+            <span class="key">Specification:</span>
+            <span class="value">N/A</span>
+          </div>    <div class="property">
+            <span class="key">PayloadTemplate:</span>
+            <span class="value">N/A</span>
+          </div>    <div class="property">
+            <span class="key">SeededFlag:</span>
+            <span class="value">N/A</span>
+          </div>    <div class="property">
+            <span class="key">ModuleId:</span>
+            <span class="value">N/A</span>
+          </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+                </div>
+              
+                <div class="item">
+                    <div class="item-title">Sales Order Deeplink (ID: 300100638330696)</div>
+                    <div class="property">
+            <span class="key">ToolId:</span>
+            <span class="value">300100638330696</span>
+          </div><div class="property">
+            <span class="key">ToolCode:</span>
+            <span class="value">SALES_ORDER_DEEPLINK</span>
+          </div><div class="property">
+            <span class="key">Type:</span>
+            <span class="value">DEEPLINK</span>
+          </div><div class="property">
+            <span class="key">Name:</span>
+            <span class="value">Sales Order Deeplink</span>
+          </div><div class="property">
+            <span class="key">Description:</span>
+            <span class="value">Sales Order deep link to classic screen</span>
+          </div><div class="property">
+            <span class="key">Family:</span>
+            <span class="value">SCM</span>
+          </div><div class="property">
+            <span class="key">Product:</span>
+            <span class="value">ORDER_MANAGEMENT</span>
+          </div><div class="property">
+            <span class="key">ToolCreatedDate:</span>
+            <span class="value">2025-06-16</span>
+          </div><div class="property">
+            <span class="key">OwnerId:</span>
+            <span class="value">300100036658848</span>
+          </div><div class="property">
+            <span class="key">OwnerName:</span>
+            <span class="value">Patric</span>
+          </div><div class="property">
+            <span class="key">Status:</span>
+            <span class="value">PUBLISHED</span>
+          </div><div class="property">
+            <span class="key">SeededFlag:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">HiddenFlag:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">ModuleId:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Namespace:</span>
+            <span class="value">SCM.ORDER_MANAGEMENT</span>
+          </div><div class="property">
+            <span class="key">Version:</span>
+            <span class="value">1</span>
+          </div><div class="property">
+            <span class="key">UserInputRequiredFlag:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Specification:</span>
+            <span class="value"><div class="specification-html"><p>No specification content available</p></div></span>
+          </div><div class="property">
+            <span class="key">UserInputMsg:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Documents:</span>
+            <div class="object-value">
+              
+            </div>
+          </div><div class="property">
+            <span class="key">MsgDlvyOptns:</span>
+            <div class="object-value">
+              
+            </div>
+          </div><div class="property">
+            <span class="key">RestTool:</span>
+            <div class="object-value">
+              
+            </div>
+          </div>
+                </div>
+              
+                <div class="item">
+                    <div class="item-title">Customer Credit Policies (ID: 300100645187768)</div>
+                    <div class="property">
+            <span class="key">ToolId:</span>
+            <span class="value">300100645187768</span>
+          </div><div class="property">
+            <span class="key">ToolCode:</span>
+            <span class="value">CUSTOMER_CREDIT_POLICIES</span>
+          </div><div class="property">
+            <span class="key">Type:</span>
+            <span class="value">DOCUMENT</span>
+          </div><div class="property">
+            <span class="key">Name:</span>
+            <span class="value">Customer Credit Policies</span>
+          </div><div class="property">
+            <span class="key">Description:</span>
+            <span class="value"><div class="formatted-text"><p>This tool gives answers to the Customer Credit Policies,</p></div></span>
+          </div><div class="property">
+            <span class="key">Family:</span>
+            <span class="value">SCM</span>
+          </div><div class="property">
+            <span class="key">Product:</span>
+            <span class="value">ORDER_MANAGEMENT</span>
+          </div><div class="property">
+            <span class="key">ToolCreatedDate:</span>
+            <span class="value">2025-06-25</span>
+          </div><div class="property">
+            <span class="key">OwnerId:</span>
+            <span class="value">300100036658848</span>
+          </div><div class="property">
+            <span class="key">OwnerName:</span>
+            <span class="value">Patric</span>
+          </div><div class="property">
+            <span class="key">Status:</span>
+            <span class="value">PUBLISHED</span>
+          </div><div class="property">
+            <span class="key">SeededFlag:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">HiddenFlag:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">ModuleId:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Namespace:</span>
+            <span class="value">SCM.ORDER_MANAGEMENT</span>
+          </div><div class="property">
+            <span class="key">Version:</span>
+            <span class="value">1</span>
+          </div><div class="property">
+            <span class="key">UserInputRequiredFlag:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Specification:</span>
+            <span class="value"><div class="specification-html"><p>No specification content available</p></div></span>
+          </div><div class="property">
+            <span class="key">UserInputMsg:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Documents:</span>
+            <div class="object-value">
+                <div class="property">
+                  <span class="key">items[0]:</span>
+                  <div class="object-value">
+                        <div class="property">
+            <span class="key">DocumentId:</span>
+            <span class="value">300100645187769</span>
+          </div>    <div class="property">
+            <span class="key">ToolId:</span>
+            <span class="value">300100645187768</span>
+          </div>    <div class="property">
+            <span class="key">Name:</span>
+            <span class="value">Customer Credit Policies</span>
+          </div>    <div class="property">
+            <span class="key">Description:</span>
+            <span class="value"><div class="formatted-text"><p>This tool gives answers to the Customer Credit Policies,</p></div></span>
+          </div>    <div class="property">
+            <span class="key">DocumentCreatedDate:</span>
+            <span class="value">2025-06-25</span>
+          </div>    <div class="property">
+            <span class="key">DocumentDeletedDate:</span>
+            <span class="value">N/A</span>
+          </div>    <div class="property">
+            <span class="key">DocumentPublishedDate:</span>
+            <span class="value">2025-06-25</span>
+          </div>    <div class="property">
+            <span class="key">OwnerId:</span>
+            <span class="value">300100036658848</span>
+          </div>    <div class="property">
+            <span class="key">OwnerName:</span>
+            <span class="value">Patric</span>
+          </div>    <div class="property">
+            <span class="key">Status:</span>
+            <span class="value">PUBLISHED</span>
+          </div>
+                  </div>
+                </div>
+            </div>
+          </div><div class="property">
+            <span class="key">MsgDlvyOptns:</span>
+            <div class="object-value">
+              
+            </div>
+          </div><div class="property">
+            <span class="key">RestTool:</span>
+            <div class="object-value">
+              
+            </div>
+          </div>
+                </div>
+              
+                <div class="item">
+                    <div class="item-title">calculator (ID: 300100637436184)</div>
+                    <div class="property">
+            <span class="key">ToolId:</span>
+            <span class="value">300100637436184</span>
+          </div><div class="property">
+            <span class="key">ToolCode:</span>
+            <span class="value">ORA_CALCULATOR_TOOL</span>
+          </div><div class="property">
+            <span class="key">Type:</span>
+            <span class="value">CALCULATOR</span>
+          </div><div class="property">
+            <span class="key">Name:</span>
+            <span class="value">calculator</span>
+          </div><div class="property">
+            <span class="key">Description:</span>
+            <span class="value"><div class="formatted-text"><p>Tool used to perform mathematical operations. Given a String you should extract the mathematical expression and provide the expression.</p></div></span>
+          </div><div class="property">
+            <span class="key">Family:</span>
+            <span class="value">HCM</span>
+          </div><div class="property">
+            <span class="key">Product:</span>
+            <span class="value">OTHER</span>
+          </div><div class="property">
+            <span class="key">ToolCreatedDate:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">OwnerId:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">OwnerName:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Status:</span>
+            <span class="value">PUBLISHED</span>
+          </div><div class="property">
+            <span class="key">SeededFlag:</span>
+            <span class="value">true</span>
+          </div><div class="property">
+            <span class="key">HiddenFlag:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">ModuleId:</span>
+            <span class="value">074F58CB6E686D21E0634CA56C64F55F</span>
+          </div><div class="property">
+            <span class="key">Namespace:</span>
+            <span class="value">HCM.FAI</span>
+          </div><div class="property">
+            <span class="key">Version:</span>
+            <span class="value">1</span>
+          </div><div class="property">
+            <span class="key">UserInputRequiredFlag:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Specification:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">UserInputMsg:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Documents:</span>
+            <div class="object-value">
+              
+            </div>
+          </div><div class="property">
+            <span class="key">MsgDlvyOptns:</span>
+            <div class="object-value">
+              
+            </div>
+          </div><div class="property">
+            <span class="key">RestTool:</span>
+            <div class="object-value">
+              
+            </div>
+          </div>
+                </div>
+              
+                <div class="item">
+                    <div class="item-title">getUserSession (ID: 300100637436185)</div>
+                    <div class="property">
+            <span class="key">ToolId:</span>
+            <span class="value">300100637436185</span>
+          </div><div class="property">
+            <span class="key">ToolCode:</span>
+            <span class="value">ORA_USER_SESSION_TOOL</span>
+          </div><div class="property">
+            <span class="key">Type:</span>
+            <span class="value">USER_SESSION</span>
+          </div><div class="property">
+            <span class="key">Name:</span>
+            <span class="value">getUserSession</span>
+          </div><div class="property">
+            <span class="key">Description:</span>
+            <span class="value"><div class="formatted-text"><p>FA Business Object Tool that fetches the PersonNumber of the employee (logged in user).</p></div></span>
+          </div><div class="property">
+            <span class="key">Family:</span>
+            <span class="value">HCM</span>
+          </div><div class="property">
+            <span class="key">Product:</span>
+            <span class="value">OTHER</span>
+          </div><div class="property">
+            <span class="key">ToolCreatedDate:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">OwnerId:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">OwnerName:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Status:</span>
+            <span class="value">PUBLISHED</span>
+          </div><div class="property">
+            <span class="key">SeededFlag:</span>
+            <span class="value">true</span>
+          </div><div class="property">
+            <span class="key">HiddenFlag:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">ModuleId:</span>
+            <span class="value">074F58CB6E686D21E0634CA56C64F55F</span>
+          </div><div class="property">
+            <span class="key">Namespace:</span>
+            <span class="value">HCM.FAI</span>
+          </div><div class="property">
+            <span class="key">Version:</span>
+            <span class="value">1</span>
+          </div><div class="property">
+            <span class="key">UserInputRequiredFlag:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Specification:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">UserInputMsg:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Documents:</span>
+            <div class="object-value">
+              
+            </div>
+          </div><div class="property">
+            <span class="key">MsgDlvyOptns:</span>
+            <div class="object-value">
+              
+            </div>
+          </div><div class="property">
+            <span class="key">RestTool:</span>
+            <div class="object-value">
+                <div class="property">
+                  <span class="key">items[0]:</span>
+                  <div class="object-value">
+                        <div class="property">
+            <span class="key">RestToolId:</span>
+            <span class="value">300100637447688</span>
+          </div>    <div class="property">
+            <span class="key">ToolId:</span>
+            <span class="value">300100637436185</span>
+          </div>    <div class="property">
+            <span class="key">ToolCode:</span>
+            <span class="value">ORA_USER_SESSION_TOOL</span>
+          </div>    <div class="property">
+            <span class="key">SupptObjectId:</span>
+            <span class="value">300100637438522</span>
+          </div>    <div class="property">
+            <span class="key">Specification:</span>
+            <span class="value">N/A</span>
+          </div>    <div class="property">
+            <span class="key">PayloadTemplate:</span>
+            <span class="value">N/A</span>
+          </div>    <div class="property">
+            <span class="key">SeededFlag:</span>
+            <span class="value">true</span>
+          </div>    <div class="property">
+            <span class="key">ModuleId:</span>
+            <span class="value">074F58CB6E686D21E0634CA56C64F55F</span>
+          </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+                </div>
+              
+        </div>
+
+        <div id="topics" class="section">
+            <h2 class="section-title">4. Topic Details</h2>
+            <p>No topics found.</p>
+        </div>
+
+        <div id="business-objects" class="section">
+            <h2 class="section-title">5. Business Object Details</h2>
+            
+                <div class="item">
+                    <div class="item-title">Unnamed Business Object (ID: 300100643000105)</div>
+                    <div class="property">
+            <span class="key">APISpecification:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Category:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Description:</span>
+            <span class="value">Release Hold </span>
+          </div><div class="property">
+            <span class="key">Family:</span>
+            <span class="value">SCM</span>
+          </div><div class="property">
+            <span class="key">MandatoryFlag:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Name:</span>
+            <span class="value">SOReleaseHold</span>
+          </div><div class="property">
+            <span class="key">ObjectCode:</span>
+            <span class="value">ORA_SCM_ORDERMANAG_SORELEASEHOLD</span>
+          </div><div class="property">
+            <span class="key">ObjectDisplayName:</span>
+            <span class="value">SOReleaseHold</span>
+          </div><div class="property">
+            <span class="key">ObjectProperties:</span>
+            <span class="value"><pre class="json-pretty">{
+  "jsonSchemaName": "SupportedBusinessObject.objectProperties",
+  "jsonSchemaVersion": 1,
+  "tools": [
+    {
+      "headers": {
+        "Accept": "application/json",
+        "Content-Type": "application/vnd.oracle.adf.action+json"
+      },
+      "bodyTemplate": "{\n    \"processRequestOfflineAfter\": 60,\n    \"holdRequests\": [\n        {\n            \"FulfillLineId\": {FulfillLineId},\n            \"HoldCode\": \"DOO_CREDIT_CHECK\",\n            \"HoldReleaseComments\": \"Credit check failure resolved\",\n            \"HoldReleaseReasonCode\": \"ORA_CREDIT_CHK_FAIL_RESOLVED\"\n        }\n    ]\n}",
+      "description": "Release Sales Order Hold at Line Level",
+      "id": 21,
+      "isNew": true,
+      "name": "call_ReleaseSOLine",
+      "operationType": "POST",
+      "parameterDefinitions": [
+        {
+          "dataType": "string",
+          "description": "FulfillLineId",
+          "id": 31,
+          "isToken": true,
+          "name": "FulfillLineId"
+        }
+      ],
+      "resourcePath": "/fscmRestApi/resources/11.13.18.05/salesOrdersForOrderHub/action/releaseHold",
+      "resourceType": "ADF_BC_FIXED_QUERY",
+      "sampleQueries": [
+        {
+          "query": {
+            "processRequestOfflineAfter": 60,
+            "holdRequests": [
+              {
+                "FulfillLineId": "300100645099133",
+                "HoldCode": "DOO_CREDIT_CHECK",
+                "HoldReleaseComments": "Credit check failure resolved",
+                "HoldReleaseReasonCode": "ORA_CREDIT_CHK_FAIL_RESOLVED"
+              }
+            ]
+          },
+          "description": "Sample payload to release Hold on Sales Order in Fusion Order Management",
+          "id": 30,
+          "stringValue": "{\"processRequestOfflineAfter\":60,\"holdRequests\":[{\"FulfillLineId\":\"300100645099133\",\"HoldCode\":\"DOO_CREDIT_CHECK\",\"HoldReleaseComments\":\"Credit check failure resolved\",\"HoldReleaseReasonCode\":\"ORA_CREDIT_CHK_FAIL_RESOLVED\"}]}"
+        }
+      ],
+      "type": "BUS_OBJECT"
+    },
+    {
+      "headers": {
+        "Content-Type": "application/vnd.oracle.adf.resourceitem+json"
+      },
+      "bodyTemplate": "{json_payload}",
+      "description": "Release Sales Order Hold",
+      "id": 22,
+      "isNew": true,
+      "name": "call_ReleaseSO",
+      "operationType": "POST",
+      "parameterDefinitions": [
+        {
+          "dataType": "string",
+          "description": "Complete json_payload as formed using the prompt in agents to release Hold on Sales Order in Fusion Order Management",
+          "id": 15,
+          "isToken": true,
+          "name": "json_payload"
+        }
+      ],
+      "resourcePath": "/fscmRestApi/resources/11.13.18.05/salesOrdersForOrderHub/action/releaseHold",
+      "resourceType": "ADF_BC_FIXED_QUERY",
+      "sampleQueries": [
+        {
+          "query": {
+            "processRequestOfflineAfter": 240,
+            "holdRequests": [
+              {
+                "SourceTransactionSystem": "GPR",
+                "SourceTransactionId": "300100076725394",
+                "HoldCode": "DOO_SCHDL",
+                "HoldReleaseComments": "Order released from hold_on21062025",
+                "HoldReleaseReasonCode": "QAREL"
+              }
+            ]
+          },
+          "description": "Sample payload to release Hold on Sales Order in Fusion Order Management",
+          "id": 14,
+          "stringValue": "{\n  \"processRequestOfflineAfter\": 240,\n  \"holdRequests\": [\n     {\n      \"SourceTransactionSystem\" : \"GPR\",\n      \"SourceTransactionId\": \"300100076725394\",\n      \"HoldCode\": \"DOO_SCHDL\",\n      \"HoldReleaseComments\": \"Order released from hold_on21062025\",\n      \"HoldReleaseReasonCode\": \"QAREL\"\n    }\n  ]\n}"
+        }
+      ],
+      "type": "BUS_OBJECT"
+    }
+  ]
+}</pre></span>
+          </div><div class="property">
+            <span class="key">ObjectSource:</span>
+            <span class="value">ADF_BC</span>
+          </div><div class="property">
+            <span class="key">ParentSupptObjectId:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Product:</span>
+            <span class="value">ORDER_MANAGEMENT</span>
+          </div><div class="property">
+            <span class="key">RestResourceIdentifier:</span>
+            <span class="value">identifier_not_known</span>
+          </div><div class="property">
+            <span class="key">RestResourcePath:</span>
+            <span class="value">/fscmRestApi/resources/11.13.18.05/salesOrdersForOrderHub</span>
+          </div><div class="property">
+            <span class="key">RestSupportedOperations:</span>
+            <span class="value">{"allowedOperations": {"GET": true, "POST": true, "PATCH": true, "DELETE": true}}</span>
+          </div><div class="property">
+            <span class="key">SampleQueries:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">SeededFlag:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">SupptObjectId:</span>
+            <span class="value">300100643000105</span>
+          </div>
+                </div>
+              
+                <div class="item">
+                    <div class="item-title">Unnamed Business Object (ID: 300100638408840)</div>
+                    <div class="property">
+            <span class="key">APISpecification:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Category:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Description:</span>
+            <span class="value">SalesOrderOperations</span>
+          </div><div class="property">
+            <span class="key">Family:</span>
+            <span class="value">SCM</span>
+          </div><div class="property">
+            <span class="key">MandatoryFlag:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Name:</span>
+            <span class="value">SalesOrderOperations</span>
+          </div><div class="property">
+            <span class="key">ObjectCode:</span>
+            <span class="value">ORA_SCM_ORDERMANAG_SALESORDEROPERA</span>
+          </div><div class="property">
+            <span class="key">ObjectDisplayName:</span>
+            <span class="value">SalesOrderOperations</span>
+          </div><div class="property">
+            <span class="key">ObjectProperties:</span>
+            <span class="value"><pre class="json-pretty">{
+  "jsonSchemaName": "SupportedBusinessObject.objectProperties",
+  "jsonSchemaVersion": 1,
+  "tools": [
+    {
+      "bodyTemplate": "",
+      "description": "Get all",
+      "id": 0,
+      "name": "getall_salesOrdersForOrderHub-lines",
+      "operationType": "GET",
+      "parameterDefinitions": [
+        {
+          "dataType": "string",
+          "description": "This is order HeaderId for a given order number",
+          "id": 6,
+          "isToken": true,
+          "name": "salesOrdersForOrderHub_Id"
+        }
+      ],
+      "resourcePath": "/fscmRestApi/resources/11.13.18.05/salesOrdersForOrderHub/{salesOrdersForOrderHub_Id}/child/lines",
+      "resourceType": "ADF_BC_FIXED_QUERY",
+      "sampleQueries": [],
+      "type": "BUS_OBJECT"
+    },
+    {
+      "bodyTemplate": "",
+      "description": "Get all",
+      "id": 1,
+      "name": "getWO_forsalesOrderLine",
+      "operationType": "GET",
+      "parameterDefinitions": [
+        {
+          "dataType": "string",
+          "description": "OrderNumber",
+          "id": 62,
+          "isToken": true,
+          "name": "q_parameter1"
+        },
+        {
+          "dataType": "string",
+          "description": "lines.supplyOrderReference.SupplyOrderNumber",
+          "id": 63,
+          "isToken": false,
+          "name": "lines.supplyOrderReference.SupplyOrderNumber"
+        },
+        {
+          "dataType": "string",
+          "description": "Orchestration Order",
+          "id": 64,
+          "isToken": false,
+          "name": "OrderNumber"
+        },
+        {
+          "dataType": "integer",
+          "description": "HeaderId",
+          "id": 65,
+          "isToken": false,
+          "name": "HeaderId"
+        },
+        {
+          "dataType": "integer",
+          "description": "lines.LineId",
+          "id": 66,
+          "isToken": false,
+          "name": "lines.LineId"
+        },
+        {
+          "dataType": "date",
+          "description": "Creation Date",
+          "id": 67,
+          "isToken": false,
+          "name": "CreationDate"
+        }
+      ],
+      "resourcePath": "/fscmRestApi/resources/11.13.18.05/salesOrdersForOrderHub?q={q_parameter1}",
+      "resourceType": "ADF_BC_FIXED_QUERY",
+      "sampleQueries": [],
+      "type": "BUS_OBJECT"
+    },
+    {
+      "headers": {
+        "Content-Type": "application/vnd.oracle.adf.resourceitem+json"
+      },
+      "bodyTemplate": "{json_Payload}",
+      "description": "Create",
+      "id": 2,
+      "name": "create_salesOrdersForOrderHub",
+      "operationType": "POST",
+      "parameterDefinitions": [
+        {
+          "dataType": "string",
+          "description": "Full Json Payload",
+          "id": 16,
+          "isToken": true,
+          "name": "json_Payload"
+        }
+      ],
+      "resourcePath": "/fscmRestApi/resources/11.13.18.05/salesOrdersForOrderHub",
+      "resourceType": "ADF_BC_FIXED_QUERY",
+      "sampleQueries": [
+        {
+          "query": {
+            "SourceTransactionNumber": "Test_AI_SO_01",
+            "SourceTransactionSystem": "GPR",
+            "SourceTransactionId": "Test_AI_SO_01",
+            "BusinessUnitName": "Vision Operations",
+            "BuyingPartyName": "Pinnacle Technologies",
+            "BuyingPartyId": 300100077646105,
+            "BuyingPartyContactName": "Paul Adams",
+            "TransactionType": "Standard Orders",
+            "RequestedShipDate": "2025-06-18T08:07:05+00:00",
+            "RequestedFulfillmentOrganizationName": "Vision Operations",
+            "PaymentTerms": "IMMEDIATE",
+            "TransactionalCurrencyName": "US Dollar",
+            "RequestingBusinessUnitName": "Vision Operations",
+            "FreezePriceFlag": false,
+            "FreezeShippingChargeFlag": false,
+            "FreezeTaxFlag": false,
+            "SubmittedFlag": true,
+            "SourceTransactionRevisionNumber": 1,
+            "billToCustomer": [
+              {
+                "PartyName": "Pinnacle Technologies",
+                "AccountNumber": "CDRM_52120",
+                "Address1": "600 4th Ave Rm 107",
+                "City": "SEATTLE",
+                "State": "WA",
+                "PostalCode": "98104",
+                "County": "",
+                "Province": null,
+                "Country": "US",
+                "ContactName": "Paul Adams",
+                "ContactFirstName": "Paul",
+                "ContactLastName": "Adams"
+              }
+            ],
+            "shipToCustomer": [
+              {
+                "PartyName": "Pinnacle Technologies",
+                "PartyId": 300100077646105,
+                "PartyNumber": "CDRM_327957",
+                "ContactId": 300100077646137,
+                "ContactNumber": "CDRM_327958",
+                "ContactName": "Paul Adams",
+                "ContactFirstName": "Paul",
+                "ContactLastName": "Adams",
+                "SiteId": 300100077646109,
+                "Address1": "600 4th Ave Rm 107",
+                "City": "SEATTLE",
+                "State": "WA",
+                "County": "",
+                "PostalCode": "98104",
+                "Country": "US"
+              }
+            ],
+            "lines": [
+              {
+                "SourceTransactionLineId": "1",
+                "SourceTransactionLineNumber": "1",
+                "SourceTransactionScheduleId": "1",
+                "SourceScheduleNumber": "1",
+                "TransactionCategoryCode": "ORDER",
+                "TransactionLineType": "Buy",
+                "ProductNumber": "Test_Item_AI",
+                "OrderedQuantity": 5,
+                "OrderedUOM": "Each"
+              }
+            ]
+          },
+          "description": "Sample Payload and input text format",
+          "id": 15,
+          "stringValue": "{\"SourceTransactionNumber\":\"Test_AI_SO_01\",\"SourceTransactionSystem\":\"GPR\",\"SourceTransactionId\":\"Test_AI_SO_01\",\"BusinessUnitName\":\"Vision Operations\",\"BuyingPartyName\":\"Pinnacle Technologies\",\"BuyingPartyId\":300100077646105,\"BuyingPartyContactName\":\"Paul Adams\",\"TransactionType\":\"Standard Orders\",\"RequestedShipDate\":\"2025-06-18T08:07:05+00:00\",\"RequestedFulfillmentOrganizationName\":\"Vision Operations\",\"PaymentTerms\":\"IMMEDIATE\",\"TransactionalCurrencyName\":\"US Dollar\",\"RequestingBusinessUnitName\":\"Vision Operations\",\"FreezePriceFlag\":false,\"FreezeShippingChargeFlag\":false,\"FreezeTaxFlag\":false,\"SubmittedFlag\":true,\"SourceTransactionRevisionNumber\":1,\"billToCustomer\":[{\"PartyName\":\"Pinnacle Technologies\",\"AccountNumber\":\"CDRM_52120\",\"Address1\":\"600 4th Ave Rm 107\",\"City\":\"SEATTLE\",\"State\":\"WA\",\"PostalCode\":\"98104\",\"County\":\"\",\"Province\":null,\"Country\":\"US\",\"ContactName\":\"Paul Adams\",\"ContactFirstName\":\"Paul\",\"ContactLastName\":\"Adams\"}],\"shipToCustomer\":[{\"PartyName\":\"Pinnacle Technologies\",\"PartyId\":300100077646105,\"PartyNumber\":\"CDRM_327957\",\"ContactId\":300100077646137,\"ContactNumber\":\"CDRM_327958\",\"ContactName\":\"Paul Adams\",\"ContactFirstName\":\"Paul\",\"ContactLastName\":\"Adams\",\"SiteId\":300100077646109,\"Address1\":\"600 4th Ave Rm 107\",\"City\":\"SEATTLE\",\"State\":\"WA\",\"County\":\"\",\"PostalCode\":\"98104\",\"Country\":\"US\"}],\"lines\":[{\"SourceTransactionLineId\":\"1\",\"SourceTransactionLineNumber\":\"1\",\"SourceTransactionScheduleId\":\"1\",\"SourceScheduleNumber\":\"1\",\"TransactionCategoryCode\":\"ORDER\",\"TransactionLineType\":\"Buy\",\"ProductNumber\":\"Test_Item_AI\",\"OrderedQuantity\":5,\"OrderedUOM\":\"Each\"}]}"
+        }
+      ],
+      "type": "BUS_OBJECT"
+    },
+    {
+      "bodyTemplate": "",
+      "description": "Get all",
+      "id": 3,
+      "name": "getall_salesOrdersForOrderHub",
+      "operationType": "GET",
+      "parameterDefinitions": [
+        {
+          "dataType": "string",
+          "description": "Query Parameter derived from user input",
+          "id": 149,
+          "isToken": true,
+          "name": "q_parameter"
+        },
+        {
+          "dataType": "string",
+          "description": "Data limit to fetch",
+          "id": 150,
+          "isToken": true,
+          "name": "limit"
+        }
+      ],
+      "resourcePath": "/fscmRestApi/resources/11.13.18.05/salesOrdersForOrderHub/?q=OrderNumber={q_parameter}&amp;limit={limit}&amp;onlyData=true&amp;orderBy=TransactionOn:desc",
+      "resourceType": "ADF_BC_FIXED_QUERY",
+      "sampleQueries": [],
+      "type": "BUS_OBJECT"
+    }
+  ]
+}</pre></span>
+          </div><div class="property">
+            <span class="key">ObjectSource:</span>
+            <span class="value">ADF_BC</span>
+          </div><div class="property">
+            <span class="key">ParentSupptObjectId:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Product:</span>
+            <span class="value">ORDER_MANAGEMENT</span>
+          </div><div class="property">
+            <span class="key">RestResourceIdentifier:</span>
+            <span class="value">identifier_not_known</span>
+          </div><div class="property">
+            <span class="key">RestResourcePath:</span>
+            <span class="value">/fscmRestApi/resources/11.13.18.05/salesOrdersForOrderHub</span>
+          </div><div class="property">
+            <span class="key">RestSupportedOperations:</span>
+            <span class="value">{"allowedOperations": {"GET": true, "POST": true, "PATCH": true, "DELETE": true}}</span>
+          </div><div class="property">
+            <span class="key">SampleQueries:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">SeededFlag:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">SupptObjectId:</span>
+            <span class="value">300100638408840</span>
+          </div>
+                </div>
+              
+                <div class="item">
+                    <div class="item-title">Unnamed Business Object (ID: 300100637438522)</div>
+                    <div class="property">
+            <span class="key">APISpecification:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Category:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Description:</span>
+            <span class="value">Self Detail</span>
+          </div><div class="property">
+            <span class="key">Family:</span>
+            <span class="value">HCM</span>
+          </div><div class="property">
+            <span class="key">MandatoryFlag:</span>
+            <span class="value">true</span>
+          </div><div class="property">
+            <span class="key">Name:</span>
+            <span class="value">Self Detail</span>
+          </div><div class="property">
+            <span class="key">ObjectCode:</span>
+            <span class="value">ORA_HCM_SELF_DETAIL_OBJECT</span>
+          </div><div class="property">
+            <span class="key">ObjectDisplayName:</span>
+            <span class="value">Self Detail</span>
+          </div><div class="property">
+            <span class="key">ObjectProperties:</span>
+            <span class="value"><pre class="json-pretty">{
+  "jsonSchemaName": "SupportedBusinessObject.objectProperties",
+  "jsonSchemaVersion": 1,
+  "tools": [
+    {
+      "description": "Business Object that retrieves the PersonNumber of the employee (logged in user).",
+      "id": 0,
+      "name": "getUserSession",
+      "operationType": "GET",
+      "parameterDefinitions": [],
+      "resourcePath": "/hcmRestApi/resources/11.13.18.05/selfDetails",
+      "resourceType": "ADF_BC_FIXED_QUERY",
+      "sampleQueries": [
+        {
+          "query": {},
+          "description": "Fetch the PersonNumber of the employee (logged in user)"
+        }
+      ],
+      "type": "BUS_OBJECT"
+    }
+  ]
+}</pre></span>
+          </div><div class="property">
+            <span class="key">ObjectSource:</span>
+            <span class="value">ADF_BC</span>
+          </div><div class="property">
+            <span class="key">ParentSupptObjectId:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">Product:</span>
+            <span class="value">OTHER</span>
+          </div><div class="property">
+            <span class="key">RestResourceIdentifier:</span>
+            <span class="value">PersonNumber</span>
+          </div><div class="property">
+            <span class="key">RestResourcePath:</span>
+            <span class="value">/hcmRestApi/resources/11.13.18.05/selfDetails</span>
+          </div><div class="property">
+            <span class="key">RestSupportedOperations:</span>
+            <span class="value">{"allowedOperations": {"GET": true, "POST": false, "PATCH": false, "DELETE": false}}</span>
+          </div><div class="property">
+            <span class="key">SampleQueries:</span>
+            <span class="value">N/A</span>
+          </div><div class="property">
+            <span class="key">SeededFlag:</span>
+            <span class="value">true</span>
+          </div><div class="property">
+            <span class="key">SupptObjectId:</span>
+            <span class="value">300100637438522</span>
+          </div>
+                </div>
+              
+        </div>
+
+        <div id="deep-links" class="section">
+            <h2 class="section-title">6. Deep Link Details</h2>
+            
+                <div class="item">
+                    <div class="item-title">Unnamed Deep Link (ID: 300100645351597)</div>
+                    <div class="property">
+            <span class="key">Description:</span>
+            <span class="value"><div class="formatted-text"><p>This is report to pull credit limit of a given customer.</p></div></span>
+          </div><div class="property">
+            <span class="key">DestinationURL:</span>
+            <span class="value">/xmlpserver/Custom/CreditLimit/CustomerAccountCreditLimitReport.xdo?p_account_number={p_account_number}&amp;p_account_name={p_account_name}&amp;_xdoTemplate=CustomerAccountCreditLimitReport&amp;_xdoOutputType=pdf&amp;_xdoLocale=en_US</span>
+          </div><div class="property">
+            <span class="key">Family:</span>
+            <span class="value">SCM</span>
+          </div><div class="property">
+            <span class="key">Message:</span>
+            <span class="value">Click {deepLink} for details.</span>
+          </div><div class="property">
+            <span class="key">Name:</span>
+            <span class="value">XXCL_CreditLimtAvailability</span>
+          </div><div class="property">
+            <span class="key">Product:</span>
+            <span class="value">ORDER_MANAGEMENT</span>
+          </div><div class="property">
+            <span class="key">UsageType:</span>
+            <span class="value">VbAppUi</span>
+          </div>
+                </div>
+              
+                <div class="item">
+                    <div class="item-title">Unnamed Deep Link (ID: 300100638395515)</div>
+                    <div class="property">
+            <span class="key">Description:</span>
+            <span class="value">Deep link to the order classic screen</span>
+          </div><div class="property">
+            <span class="key">DestinationURL:</span>
+            <span class="value">/fndSetup/faces/deeplink?objType=SALES_ORDER&amp;action=VIEW&amp;objKey=HeaderId={HeaderId}</span>
+          </div><div class="property">
+            <span class="key">Family:</span>
+            <span class="value">SCM</span>
+          </div><div class="property">
+            <span class="key">Message:</span>
+            <span class="value">Click {deepLink} for details.</span>
+          </div><div class="property">
+            <span class="key">Name:</span>
+            <span class="value">ViewSalesOrder</span>
+          </div><div class="property">
+            <span class="key">Product:</span>
+            <span class="value">ORDER_MANAGEMENT</span>
+          </div><div class="property">
+            <span class="key">UsageType:</span>
+            <span class="value">VbAppUi</span>
+          </div>
+                </div>
+              
+        </div>
+    </div>
+
+
+    </body></html>

@@ -1723,6 +1723,7 @@ NULL acc_code*/
         AND fdd.deprn_run_id = xte.source_id_int_3
         AND faa.asset_id = fdd.asset_id
         AND faa.asset_category_id = fac.category_id
+        AND fdd.deprn_amount != 0
     UNION
     SELECT
         gir.je_header_id                       c131, --FAH_JE_HEADER_ID,
